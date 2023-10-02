@@ -1,0 +1,12 @@
+#!/bin/bash
+mkdir -p /tmp/h4ckb0x
+if [ -n "$HACKBOX_PROJECT_DIR" ]; then
+    docker run \
+        --rm \
+        --network="host" \
+        --mount type=bind,source=/home/benny/Workspace/h4ckb0x/Projects,target=/root/projects \
+        --mount type=bind,source=/tmp/h4ckb0x,target=/tmp \
+        -it h4ckb0x bash
+else 
+    echo "Error: HACKBOX_PROJECT_DIR is undefined. Please point the HACKBOX_PROJECT_DIR variable to a directory representing your h4ckb0x working directory."
+fi

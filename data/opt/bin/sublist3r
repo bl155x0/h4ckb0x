@@ -1,0 +1,2 @@
+#!/bin/bash
+python3 /root/opt/sublist3r/sublist3r.py "$@"
