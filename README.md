@@ -1,5 +1,5 @@
 # h4ckb0x
-A simple hacking environment as docker image
+A simple, docker based, hacking environment FTW.
 
 ## Build
 
