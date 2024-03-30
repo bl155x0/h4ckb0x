@@ -39,7 +39,7 @@ RUN pip3 install requests
 
 #bashrc
 RUN echo "set -o vi" >> /root/.bashrc &&  \
-    echo "PATH=\$PATH:/root/opt/bin" >> /root/.bashrc &&  \
+    echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/.bashrc &&  \
     echo "export RECONAUT_TEMPLATES=/root/reconaut-templates/" >> /root/.bashrc &&  \
     echo "PS1='\[\033[0;31m\]\u \e[31m$(parse_if_root)\[\033[0;37m\]at \[\033[0;31m\]h4ckb0x \[\033[0;37m\]in \[\033[0;31m\]\w \[\033[1;35m\]$(parse_git_branch)\n\[\033[1;35m\]⤷ \[\033[0m\]'" >> /root/.bashrc && \
     echo "PATH=\$PATH:/usr/local/go/bin" >> /root/.bashrc && \
@@ -251,3 +251,14 @@ RUN pip install jsbeautifier && \
   rm -rf /root/go
 
 #--------------------------------------------------------------------------------------------------
+# JavaScript
+
+# node, npm and eslint
+RUN cd /tmp && wget https://nodejs.org/dist/v20.12.0/node-v20.12.0-linux-x64.tar.xz && \
+  tar xf node-v20.12.0-linux-x64.tar.xz -C /opt && \
+  export PATH=$PATH:/opt/node-v20.12.0-linux-x64/bin/ && \
+  npm install -g --save-dev eslint eslint-plugin-security && \
+  cd /root &&  git clone https://github.com/Greenwolf/eslint-security-scanner-configs && \
+  cd /root/eslint-security-scanner-configs && npm install eslint-plugin-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-config-standard eslint-config-semistandard eslint-plugin-scanjs-rules eslint-plugin-no-unsanitized eslint-plugin-prototype-pollution-security-rules eslint-plugin-angularjs-security-rules eslint-plugin-react eslint-plugin-no-wildcard-postmessage eslint-plugin-html@latest --save-dev
+
+
