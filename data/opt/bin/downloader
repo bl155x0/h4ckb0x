@@ -1,0 +1,69 @@
+#!/bin/bash
+
+#--------------------------------------------------------------------------------------------------
+
+# Help function to display usage information
+print_help() {
+    echo "downloader - a very simple URL fetcher"
+    echo "Usage: $0 -o <output_directory>"
+    echo "Options:"
+    echo "  -h, --help                Display this help message"
+    echo "  -o, --output <directory>  Specify the output directory for downloads"
+}
+
+# Function to download a URL
+download_url() {
+    url="$1"
+    echo "Downloading $url ..."
+    wget -q -P "$output_dir" "$url"
+    echo "Download of $url complete"
+}
+
+# Read URLs from stdin
+read_urls_from_stdin() {
+    while IFS= read -r url || [[ -n "$url" ]]; do
+        download_url "$url" &
+    done
+}
+
+#--------------------------------------------------------------------------------------------------
+
+# Parse command-line arguments
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -h|--help)
+            print_help
+            exit 0
+            ;;
+        -o|--output)
+            output_dir="$2"
+            shift
+            shift
+            ;;
+        *)
+            echo "Error: Unknown option $key"
+            print_help
+            exit 1
+            ;;
+    esac
+done
+
+# Check if output directory is provided
+if [ -z "$output_dir" ]; then
+    echo "Error: Output directory not specified."
+    print_help
+    exit 1
+fi
+
+# Create the output directory if it doesn't exist
+mkdir -p "$output_dir"
+
+# Read all URLs from stdin
+read_urls_from_stdin
+
+# Wait for all background processes to finish
+wait
+
+echo "All downloads complete!"
+

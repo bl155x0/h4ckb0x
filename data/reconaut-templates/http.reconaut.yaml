@@ -1,6 +1,7 @@
 Name: http
 Description: |
-  Fetches http headers and bodies from the list of given URLs (using fff by tomnomnom)
+  HTTP Content fetcher [./http]
+     Fetches HTTP headers and bodies from the list of given URLs (using fff by tomnomnom)
 
 #-------------------------------------------------------------------------------  
 

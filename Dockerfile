@@ -23,7 +23,12 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     #jq for processing JSON inputs
     apt install jq -y && \
     # dnsutils like nslookup and dig
-    apt install dnsutils -y
+    apt install dnsutils -y && \
+    # deps for katana headless
+    apt install libgbm1 -y && \
+    apt install libxkbcommon-x11-0 -y && \
+    # sudo required by metasploit installation
+    apt install sudo
     
 #Home directory
 ADD data /root
@@ -211,6 +216,7 @@ RUN apt install hashcat -y
 # metasploit
 # explit framework
 RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall && \
+  apt update && \
   chmod 755 /tmp/msfinstall && \
   /tmp/msfinstall && \
   rm /tmp/msfinstall
@@ -235,6 +241,13 @@ RUN curl -P /tmp "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "
   /tmp//aws/install && \
   rm -rf /tmp/aws*
 
+#--------------------------------------------------------------------------------------------------
+# bl155x0
 
+# jsloot
+RUN pip install jsbeautifier && \
+  /usr/local/go/bin/go install github.com/bl155x0/jsloot@latest && \
+  mv go/bin/jsloot opt/bin/ && \
+  rm -rf /root/go
 
 #--------------------------------------------------------------------------------------------------
