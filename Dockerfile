@@ -44,7 +44,10 @@ RUN echo "set -o vi" >> /root/.bashrc &&  \
     echo "PS1='\[\033[0;31m\]\u \e[31m$(parse_if_root)\[\033[0;37m\]at \[\033[0;31m\]h4ckb0x \[\033[0;37m\]in \[\033[0;31m\]\w \[\033[1;35m\]$(parse_git_branch)\n\[\033[1;35m\]⤷ \[\033[0m\]'" >> /root/.bashrc && \
     echo "PATH=\$PATH:/usr/local/go/bin" >> /root/.bashrc && \
     echo "cat /root/etc/motd" >> /root/.bashrc  && \
-    echo "alias nmapq='nmap -n -sC -sV'" >> /root/.bashrc
+    echo "alias nmapq='nmap -n -sC -sV'" >> /root/.bashrc && \
+    echo "alias eslintsec='eslint -c ~/eslint-security-scanner-configs/eslintrc-light.js *.js'" >> /root/.bashrc && \
+    echo "alias ffufu='ffuf -H \"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0\"'" >> /root/.bashrc  && \
+    echo "alias smuggler='/root/opt/smuggler/smuggler.py'" >> /root/.bashrc
 
 #--------------------------------------------------------------------------------------------------
 #Wordlists
@@ -261,4 +264,7 @@ RUN cd /tmp && wget https://nodejs.org/dist/v20.12.0/node-v20.12.0-linux-x64.tar
   cd /root &&  git clone https://github.com/Greenwolf/eslint-security-scanner-configs && \
   cd /root/eslint-security-scanner-configs && npm install eslint-plugin-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-config-standard eslint-config-semistandard eslint-plugin-scanjs-rules eslint-plugin-no-unsanitized eslint-plugin-prototype-pollution-security-rules eslint-plugin-angularjs-security-rules eslint-plugin-react eslint-plugin-no-wildcard-postmessage eslint-plugin-html@latest --save-dev
 
+#--------------------------------------------------------------------------------------------------
+# smuggler
+RUN cd /root/opt && git clone https://github.com/defparam/smuggler.git
 
