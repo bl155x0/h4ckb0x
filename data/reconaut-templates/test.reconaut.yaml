@@ -1,0 +1,15 @@
+Name: test  
+Description: |  
+  Does nothing. Just a simple tes
+
+Root:  
+  RootCommands:  
+    - Command: "test"  
+  
+#-------------------------------------------------------------------------------  
+  
+Commands:  
+  - Name: "test"  
+    Description: "Just a test command"  
+    ExecFile: test.reconaut.cmd
+  
