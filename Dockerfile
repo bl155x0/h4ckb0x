@@ -27,6 +27,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     # deps for katana headless
     apt install libgbm1 -y && \
     apt install libxkbcommon-x11-0 -y && \
+    # network tools
+    apt install ftp nfs-common -y && \
     # sudo required by metasploit installation
     apt install sudo
     
@@ -268,3 +270,15 @@ RUN cd /tmp && wget https://nodejs.org/dist/v20.12.0/node-v20.12.0-linux-x64.tar
 # smuggler
 RUN cd /root/opt && git clone https://github.com/defparam/smuggler.git
 
+#--------------------------------------------------------------------------------------------------
+# john
+RUN apt install libssl-dev && \
+  git clone --depth 1 https://github.com/openwall/john.git /tmp/john && \
+  cd /tmp/john/src && ./configure && make -sj4 && mkdir -p /root/opt/john &&  \
+  cp -R /tmp/john/run/* /root/opt/john && \
+  rm -rf /tmp/john
+
+#--------------------------------------------------------------------------------------------------
+# /var/www - stuff to serve 
+RUN mkdir /var/www && \
+   wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh
