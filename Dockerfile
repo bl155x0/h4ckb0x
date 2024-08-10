@@ -279,6 +279,12 @@ RUN apt install libssl-dev && \
   rm -rf /tmp/john
 
 #--------------------------------------------------------------------------------------------------
+#smb/cifs stuff
+RUN apt install -y smbclient && \
+    wget https://raw.githubusercontent.com/CiscoCXSecurity/enum4linux/master/enum4linux.pl -O /root/opt/bin/enum4linux && \
+    chmod u+x /root/opt/bin/enum4linux
+
+#--------------------------------------------------------------------------------------------------
 # /var/www - stuff to serve 
 RUN mkdir /var/www && \
    wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh
