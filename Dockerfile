@@ -218,6 +218,10 @@ RUN apt install hashcat -y
 #--------------------------------------------------------------------------------------------------
 # Exploits 
 
+# searchsploit
+RUN git clone --depth 1 https://gitlab.com/exploit-database/exploitdb.git /opt/exploitdb && \
+  ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
+
 # metasploit
 # explit framework
 RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall && \
@@ -225,6 +229,8 @@ RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/conf
   chmod 755 /tmp/msfinstall && \
   /tmp/msfinstall && \
   rm /tmp/msfinstall
+
+
 
 #--------------------------------------------------------------------------------------------------
 # Mobile
@@ -272,7 +278,7 @@ RUN cd /root/opt && git clone https://github.com/defparam/smuggler.git
 
 #--------------------------------------------------------------------------------------------------
 # john
-RUN apt install libssl-dev && \
+RUN apt -y install libssl-dev && \
   git clone --depth 1 https://github.com/openwall/john.git /tmp/john && \
   cd /tmp/john/src && ./configure && make -sj4 && mkdir -p /root/opt/john &&  \
   cp -R /tmp/john/run/* /root/opt/john && \
