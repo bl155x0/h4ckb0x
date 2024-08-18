@@ -57,6 +57,9 @@ RUN echo "set -o vi" >> /root/.bashrc &&  \
 RUN tar xzf opt/wordlists/rockyou.txt.tgz -C opt/wordlists/ && rm opt/wordlists/rockyou.txt.tgz
 RUN git clone --depth 1 https://github.com/danielmiessler/SecLists.git /root/opt/wordlists/SecLists
 
+# custom wordlists generator
+RUN sudo apt install cewl -y
+
 #--------------------------------------------------------------------------------------------------
 # Host Enumeration
 
@@ -146,6 +149,9 @@ RUN wget -P /tmp https://github.com/projectdiscovery/nuclei/releases/download/v2
     # run once to install the templates
     /root/opt/bin/nuclei
 
+#nikto
+RUN apt install nikto -y
+
 # sqlamp
 # SQLi scanner
 RUN apt install sqlmap -y
@@ -209,11 +215,18 @@ RUN /usr/local/go/bin/go install github.com/tomnomnom/waybackurls@latest && \
 # genaral cracker
 #hdydra requires debconf which comes with an interactive q&a installation by default. 
 #we don't want this so we set DEBIAN_FRONTEND to "noninteractive"
-RUN export DEBIAN_FRONTEND=noninteractive && apt install hydra -y
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y hydra
 
 # hashcat
 # hash cracker
 RUN apt install hashcat -y
+
+# john
+RUN apt -y install libssl-dev && \
+  git clone --depth 1 https://github.com/openwall/john.git /tmp/john && \
+  cd /tmp/john/src && ./configure && make -sj4 && mkdir -p /root/opt/john &&  \
+  cp -R /tmp/john/run/* /root/opt/john && \
+  rm -rf /tmp/john
 
 #--------------------------------------------------------------------------------------------------
 # Exploits 
@@ -229,8 +242,6 @@ RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/conf
   chmod 755 /tmp/msfinstall && \
   /tmp/msfinstall && \
   rm /tmp/msfinstall
-
-
 
 #--------------------------------------------------------------------------------------------------
 # Mobile
@@ -275,14 +286,6 @@ RUN cd /tmp && wget https://nodejs.org/dist/v20.12.0/node-v20.12.0-linux-x64.tar
 #--------------------------------------------------------------------------------------------------
 # smuggler
 RUN cd /root/opt && git clone https://github.com/defparam/smuggler.git
-
-#--------------------------------------------------------------------------------------------------
-# john
-RUN apt -y install libssl-dev && \
-  git clone --depth 1 https://github.com/openwall/john.git /tmp/john && \
-  cd /tmp/john/src && ./configure && make -sj4 && mkdir -p /root/opt/john &&  \
-  cp -R /tmp/john/run/* /root/opt/john && \
-  rm -rf /tmp/john
 
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
