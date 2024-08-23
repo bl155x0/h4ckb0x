@@ -306,3 +306,8 @@ RUN apt install -y smbclient && \
 RUN mkdir /var/www && \
    wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh && \
    wget -P /var/www/ https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64
+
+#--------------------------------------------------------------------------------------------------
+# sql tools
+RUN apt install mysql-client -y
+
