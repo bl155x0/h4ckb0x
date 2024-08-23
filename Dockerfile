@@ -31,6 +31,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt install ftp nfs-common -y && \
     # sudo required by metasploit installation
     apt install sudo
+# Additional stuff
+RUN apt install net-tools -y
     
 #Home directory
 ADD data /root
@@ -45,7 +47,8 @@ RUN echo "set -o vi" >> /root/.bashrc &&  \
     echo "export RECONAUT_TEMPLATES=/root/reconaut-templates/" >> /root/.bashrc &&  \
     echo "PS1='\[\033[0;31m\]\u \e[31m$(parse_if_root)\[\033[0;37m\]at \[\033[0;31m\]h4ckb0x \[\033[0;37m\]in \[\033[0;31m\]\w \[\033[1;35m\]$(parse_git_branch)\n\[\033[1;35m\]⤷ \[\033[0m\]'" >> /root/.bashrc && \
     echo "PATH=\$PATH:/usr/local/go/bin" >> /root/.bashrc && \
-    echo "cat /root/etc/motd" >> /root/.bashrc  && \
+    echo "cat /root/etc/motd" >> /root/.bashrc && \
+    echo "alias p='ping -c 1'" >> /root/.bashrc && \ 
     echo "alias nmapq='nmap -n -sC -sV'" >> /root/.bashrc && \
     echo "alias eslintsec='eslint -c ~/eslint-security-scanner-configs/eslintrc-light.js *.js'" >> /root/.bashrc && \
     echo "alias ffufu='ffuf -H \"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0\"'" >> /root/.bashrc  && \
@@ -123,6 +126,11 @@ RUN /usr/local/go/bin/go install -v github.com/BishopFox/jsluice/cmd/jsluice@lat
 RUN wget -P /tmp https://github.com/ffuf/ffuf/releases/download/v2.1.0/ffuf_2.1.0_linux_amd64.tar.gz && \
     tar -C /root/opt/bin/ -xf /tmp/ffuf_2.1.0_linux_amd64.tar.gz && \
     rm /root/opt/bin/CHANGELOG.md /root/opt/bin/LICENSE /root/opt/bin/README.md /tmp/ffuf_2.1.0_linux_amd64.tar.gz
+
+# gobuster
+RUN /usr/local/go/bin/go install -v github.com/OJ/gobuster/v3@latest && \
+  mv go/bin/gobuster opt/bin/ && \
+  rm -rf /root/go
 
 # kiterunner
 # API fuzzer
@@ -296,4 +304,5 @@ RUN apt install -y smbclient && \
 #--------------------------------------------------------------------------------------------------
 # /var/www - stuff to serve 
 RUN mkdir /var/www && \
-   wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh
+   wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh && \
+   wget -P /var/www/ https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64
