@@ -38,7 +38,7 @@ RUN apt install net-tools -y
 ADD data /root
 WORKDIR /root
 
-#python
+#python most used requirements
 RUN pip3 install requests
 
 #bashrc
@@ -293,7 +293,7 @@ RUN cd /tmp && wget https://nodejs.org/dist/v20.12.0/node-v20.12.0-linux-x64.tar
 
 #--------------------------------------------------------------------------------------------------
 # smuggler
-RUN cd /root/opt && git clone https://github.com/defparam/smuggler.git
+RUN cd /root/opt && git clone --depth 1 https://github.com/defparam/smuggler.git
 
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
@@ -311,3 +311,10 @@ RUN mkdir /var/www && \
 # sql tools
 RUN apt install mysql-client -y
 
+#--------------------------------------------------------------------------------------------------
+# impacket - network libraries and offensive toolings
+RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket && \
+  cd /root/opt/impacket/ && python3 ./setup.py install && \
+  pip3 install -r requirements.txt && \
+  cd -
+  
