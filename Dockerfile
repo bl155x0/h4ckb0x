@@ -305,6 +305,8 @@ RUN apt install -y smbclient && \
 # /var/www - stuff to serve 
 RUN mkdir /var/www && \
    wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh && \
+   wget -P /var/www https://raw.githubusercontent.com/peass-ng/PEASS-ng/master/winPEAS/winPEASps1/winPEAS.ps1 && \
+   wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/winPEASany_ofs.exe && \
    wget -P /var/www/ https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64
 
 #--------------------------------------------------------------------------------------------------
