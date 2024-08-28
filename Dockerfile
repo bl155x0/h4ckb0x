@@ -321,4 +321,11 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
   cd /root/opt/impacket/ && python3 ./setup.py install && \
   pip3 install -r requirements.txt && \
   cd -
+
+#--------------------------------------------------------------------------------------------------
+# Responder - Poisoner - https://github.com/lgandx/Responder
+RUN git clone --depth 1 https://github.com/lgandx/Responder.git /root/opt/responder && \
+  cd /root/opt/responder && pip3 install -r requirements.txt && \
+  cd -
+
   
