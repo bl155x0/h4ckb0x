@@ -8,38 +8,19 @@ LABEL Description="h4ckb0x: A simple hacking environment as docker image."
 #--------------------------------------------------------------------------------------------------
 
 # basic system tools we need
-RUN apt update && apt upgrade -y
-RUN export DEBIAN_FRONTEND=noninteractive && \
-    #tools
-    apt install iputils-ping unzip vim netcat nmap curl wget git -y && \ 
-    #python
-    apt install python python3 pip -y && \
-    #go
-    wget -P /tmp https://go.dev/dl/go1.21.1.linux-amd64.tar.gz && \ 
-    tar -C /usr/local -xzf /tmp/go1.21.1.linux-amd64.tar.gz   && \
-    rm /tmp/go1.21.1.linux-amd64.tar.gz  && \
-    #java
-    apt install openjdk-17-jdk openjdk-17-jre -y && \
-    #jq for processing JSON inputs
+RUN apt update && apt upgrade -y && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt install iputils-ping unzip vim netcat socat nmap curl wget git net-tools -y && \ 
     apt install jq -y && \
-    # dnsutils like nslookup and dig
     apt install dnsutils -y && \
-    # deps for katana headless
     apt install libgbm1 -y && \
     apt install libxkbcommon-x11-0 -y && \
-    # network tools
     apt install ftp nfs-common -y && \
-    # sudo required by metasploit installation
-    apt install sudo
-# Additional stuff
-RUN apt install net-tools -y
-    
+    apt install sudo -y 
+
 #Home directory
 ADD data /root
 WORKDIR /root
-
-#python most used requirements
-RUN pip3 install requests
 
 #bashrc
 RUN echo "set -o vi" >> /root/.bashrc &&  \
@@ -53,6 +34,21 @@ RUN echo "set -o vi" >> /root/.bashrc &&  \
     echo "alias eslintsec='eslint -c ~/eslint-security-scanner-configs/eslintrc-light.js *.js'" >> /root/.bashrc && \
     echo "alias ffufu='ffuf -H \"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0\"'" >> /root/.bashrc  && \
     echo "alias smuggler='/root/opt/smuggler/smuggler.py'" >> /root/.bashrc
+
+#--------------------------------------------------------------------------------------------------
+## programming languages
+
+# Python
+RUN apt install python python3 pip -y && \
+    pip3 install requests
+
+# Go
+RUN wget -P /tmp https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \ 
+    tar -C /usr/local -xzf /tmp/go1.23.1.linux-amd64.tar.gz   && \
+    rm /tmp/go1.23.1.linux-amd64.tar.gz
+
+# Java
+RUN apt install openjdk-17-jdk openjdk-17-jre -y
 
 #--------------------------------------------------------------------------------------------------
 #Wordlists
