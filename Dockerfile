@@ -305,7 +305,9 @@ RUN mkdir /var/www && \
    wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/winPEASany_ofs.exe && \
    wget -P /var/www https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 && \
    wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc.exe && \
-   wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc64.exe
+   wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc64.exe && \
+   cp /usr/bin/socat /var/www/socat
+
 
 #--------------------------------------------------------------------------------------------------
 # sql tools
