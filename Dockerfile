@@ -23,8 +23,7 @@ ADD data /root
 WORKDIR /root
 
 #bashrc
-RUN echo "set -o vi" >> /root/.bashrc &&  \
-    echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/.bashrc &&  \
+RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/.bashrc &&  \
     echo "export RECONAUT_TEMPLATES=/root/reconaut-templates/" >> /root/.bashrc &&  \
     echo "PS1='\[\033[0;31m\]\u \e[31m$(parse_if_root)\[\033[0;37m\]at \[\033[0;31m\]h4ckb0x \[\033[0;37m\]in \[\033[0;31m\]\w \[\033[1;35m\]$(parse_git_branch)\n\[\033[1;35m\]⤷ \[\033[0m\]'" >> /root/.bashrc && \
     echo "PATH=\$PATH:/usr/local/go/bin" >> /root/.bashrc && \
@@ -39,8 +38,7 @@ RUN echo "set -o vi" >> /root/.bashrc &&  \
 ## programming languages
 
 # Python
-RUN apt install python python3 pip -y && \
-    pip3 install requests
+RUN apt update && apt install -y python python3 python3-pip && pip3 install requests
 
 # Go
 RUN wget -P /tmp https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \ 
@@ -306,8 +304,8 @@ RUN mkdir /var/www && \
    wget -P /var/www https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 && \
    wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc.exe && \
    wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc64.exe && \
-   cp /usr/bin/socat /var/www/socat
-
+   wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat && \
+   wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/ncat
 
 #--------------------------------------------------------------------------------------------------
 # sql tools
