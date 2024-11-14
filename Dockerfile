@@ -140,6 +140,13 @@ RUN pip3 install arjun
 # CRLF injection fuzzer
 RUN curl -sSfL https://git.io/crlfuzz | sh -s -- -b /root/opt/bin
 
+# whatweb
+RUN apt install -y whatweb
+
+# eye witness
+RUN git clone --depth 1 https://github.com/RedSiege/EyeWitness.git /root/opt/eyewitness/ && \
+  /root/opt/eyewitness/Python/setup/setup.sh 
+
 #--------------------------------------------------------------------------------------------------
 # Scanners 
 
@@ -291,6 +298,7 @@ RUN cd /root/opt && git clone --depth 1 https://github.com/defparam/smuggler.git
 
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
+# smbclient including rpcclient
 RUN apt install -y smbclient && \
     wget https://raw.githubusercontent.com/CiscoCXSecurity/enum4linux/master/enum4linux.pl -O /root/opt/bin/enum4linux && \
     chmod u+x /root/opt/bin/enum4linux
@@ -322,4 +330,14 @@ RUN git clone --depth 1 https://github.com/lgandx/Responder.git /root/opt/respon
   cd /root/opt/responder && pip3 install -r requirements.txt && \
   cd -
 
+#--------------------------------------------------------------------------------------------------
+#SMTP
+RUN apt install -y snmp
+
+#--------------------------------------------------------------------------------------------------
+
   
+#--------------------------------------------------------------------------------------------------
+# locate
+RUN apt install -y mlocate
+
