@@ -16,6 +16,7 @@ RUN apt update && apt upgrade -y && \
     apt install libgbm1 -y && \
     apt install libxkbcommon-x11-0 -y && \
     apt install ftp nfs-common -y && \
+    apt install mlocate -y && \
     apt install sudo -y 
 
 #Home directory
@@ -36,50 +37,53 @@ RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/
 
 #--------------------------------------------------------------------------------------------------
 ## programming languages
+RUN apt update && \
+    # Python
+    apt install -y python python3 python3-pip && pip3 install requests && \
 
-# Python
-RUN apt update && apt install -y python python3 python3-pip && pip3 install requests
-
-# Go
-RUN wget -P /tmp https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \ 
+    # Go
+    wget -P /tmp https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \ 
     tar -C /usr/local -xzf /tmp/go1.23.1.linux-amd64.tar.gz   && \
-    rm /tmp/go1.23.1.linux-amd64.tar.gz
+    rm /tmp/go1.23.1.linux-amd64.tar.gz && \
 
-# Java
-RUN apt install openjdk-17-jdk openjdk-17-jre -y
+    # Java
+    apt install openjdk-17-jdk openjdk-17-jre -y
 
 #--------------------------------------------------------------------------------------------------
 #Wordlists
-# Some basic wordlists
-RUN tar xzf opt/wordlists/rockyou.txt.tgz -C opt/wordlists/ && rm opt/wordlists/rockyou.txt.tgz
-RUN git clone --depth 1 https://github.com/danielmiessler/SecLists.git /root/opt/wordlists/SecLists
 
-# custom wordlists generator
-RUN sudo apt install cewl -y
+RUN apt update && \
+
+    # rockyou
+    tar xzf opt/wordlists/rockyou.txt.tgz -C opt/wordlists/ && rm opt/wordlists/rockyou.txt.tgz && \
+
+    # SecLists
+    git clone --depth 1 https://github.com/danielmiessler/SecLists.git /root/opt/wordlists/SecLists && \
+
+    # custom wordlists generator
+    apt install cewl -y
 
 #--------------------------------------------------------------------------------------------------
 # Host Enumeration
 
-# amass
-# OWASP enumeration tool
+    # amass - OWASP enumeration tool
 RUN wget -P /tmp https://github.com/owasp-amass/amass/releases/download/v4.2.0/amass_Linux_amd64.zip && \
     unzip -d /tmp /tmp/amass_Linux_amd64.zip && \
     mv /tmp/amass_Linux_amd64/amass /root/opt/bin && \
-    rm -rf /tmp/amass_Linux_amd64 && rm /tmp/amass_Linux_amd64.zip
-# nameservers usefull for using with amass
-RUN wget https://public-dns.info/nameservers.txt && \
+    rm -rf /tmp/amass_Linux_amd64 && rm /tmp/amass_Linux_amd64.zip && \
+
+    # nameservers usefull for using with amass
+    wget https://public-dns.info/nameservers.txt && \
     sort -R nameservers.txt | tail -n 30 > mynameservers.txt && \
     mv nameservers.txt /root/etc/ && \
-    mv mynameservers.txt /root/etc
+    mv mynameservers.txt /root/etc && \
 
-# sublist3r 
-# enumeration tool
-RUN git clone --depth 1 https://github.com/huntergregal/Sublist3r.git /root/opt/sublist3r && \
-    pip install -r /root/opt/sublist3r/requirements.txt
+    # sublist3r - enumeration tool
+    git clone --depth 1 https://github.com/huntergregal/Sublist3r.git /root/opt/sublist3r && \
+    pip install -r /root/opt/sublist3r/requirements.txt && \
 
-# findomain
-# enumeration tool
-RUN curl -LO https://github.com/findomain/findomain/releases/latest/download/findomain-linux-i386.zip && \
+    # findomain - enumeration tool
+    curl -LO https://github.com/findomain/findomain/releases/latest/download/findomain-linux-i386.zip && \
     unzip findomain-linux-i386.zip && \
     chmod +x findomain && \
     mv findomain /root/opt/bin/ && \
@@ -88,86 +92,79 @@ RUN curl -LO https://github.com/findomain/findomain/releases/latest/download/fin
 #--------------------------------------------------------------------------------------------------
 # URL/File Enumeration
 
-# katana
-# Spider and Crawler
+     # katana - Spider and Crawler
 RUN /usr/local/go/bin/go install github.com/projectdiscovery/katana/cmd/katana@latest && \
     mv go/bin/katana opt/bin/ && \
-    rm -rf /root/go
+    rm -rf /root/go && \
 
-# gau
-# getallurls - OSINT url discovery
-RUN /usr/local/go/bin/go  install github.com/lc/gau/v2/cmd/gau@latest && \
+    # gau - getallurls - OSINT url discovery
+    /usr/local/go/bin/go  install github.com/lc/gau/v2/cmd/gau@latest && \
     mv go/bin/gau opt/bin/ && \
-    rm -rf /root/go
+    rm -rf /root/go && \
 
-# httpx
-# HTTP Probe tool
-RUN /usr/local/go/bin/go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest && \
+    # httpx - HTTP Probe tool
+    /usr/local/go/bin/go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest && \
     mv go/bin/httpx opt/bin/ && \
-    rm -rf /root/go
+    rm -rf /root/go && \
 
-# jsluice
-# Static code analysis of js files in order to find API endpoints, secrets and other stuff
-RUN /usr/local/go/bin/go install -v github.com/BishopFox/jsluice/cmd/jsluice@latest && \
-  mv go/bin/jsluice opt/bin/ && \
-  rm -rf /root/go
+    # jsluice  -Static code analysis of js files in order to find API endpoints, secrets and other stuff
+    /usr/local/go/bin/go install -v github.com/BishopFox/jsluice/cmd/jsluice@latest && \
+    mv go/bin/jsluice opt/bin/ && \
+    rm -rf /root/go
   
 #--------------------------------------------------------------------------------------------------
 # fuzzer
 
-# ffuf
-# fast fuzzer
-RUN wget -P /tmp https://github.com/ffuf/ffuf/releases/download/v2.1.0/ffuf_2.1.0_linux_amd64.tar.gz && \
+RUN apt update && \ 
+
+    # ffuf - fast fuzzer
+    wget -P /tmp https://github.com/ffuf/ffuf/releases/download/v2.1.0/ffuf_2.1.0_linux_amd64.tar.gz && \
     tar -C /root/opt/bin/ -xf /tmp/ffuf_2.1.0_linux_amd64.tar.gz && \
-    rm /root/opt/bin/CHANGELOG.md /root/opt/bin/LICENSE /root/opt/bin/README.md /tmp/ffuf_2.1.0_linux_amd64.tar.gz
+    rm /root/opt/bin/CHANGELOG.md /root/opt/bin/LICENSE /root/opt/bin/README.md /tmp/ffuf_2.1.0_linux_amd64.tar.gz && \
 
-# gobuster
-RUN /usr/local/go/bin/go install -v github.com/OJ/gobuster/v3@latest && \
-  mv go/bin/gobuster opt/bin/ && \
-  rm -rf /root/go
+    # gobuster
+    /usr/local/go/bin/go install -v github.com/OJ/gobuster/v3@latest && \
+    mv go/bin/gobuster opt/bin/ && \
+    rm -rf /root/go && \
 
-# kiterunner
-# API fuzzer
-RUN wget -P /tmp/ https://github.com/assetnote/kiterunner/releases/download/v1.0.2/kiterunner_1.0.2_linux_amd64.tar.gz && \
+    # kiterunner API fuzzer 
+    wget -P /tmp/ https://github.com/assetnote/kiterunner/releases/download/v1.0.2/kiterunner_1.0.2_linux_amd64.tar.gz && \
     tar -C /root/opt/bin -xf /tmp/kiterunner_1.0.2_linux_amd64.tar.gz && \
-    rm /tmp/kiterunner_1.0.2_linux_amd64.tar.gz
+    rm /tmp/kiterunner_1.0.2_linux_amd64.tar.gz && \
 
-# arjun
-# Parameter fuzzer
-RUN pip3 install arjun
+    # arjun Parameter fuzzer
+    pip3 install arjun && \
 
-# crlffuzz
-# CRLF injection fuzzer
-RUN curl -sSfL https://git.io/crlfuzz | sh -s -- -b /root/opt/bin
+    # crlffuzz - CRLF injection fuzzer
+    curl -sSfL https://git.io/crlfuzz | sh -s -- -b /root/opt/bin && \
 
-# whatweb
-RUN apt install -y whatweb
+    # whatweb
+    apt install -y whatweb && \
 
-# eye witness
-RUN git clone --depth 1 https://github.com/RedSiege/EyeWitness.git /root/opt/eyewitness/ && \
-  /root/opt/eyewitness/Python/setup/setup.sh 
+    # eye witness
+    git clone --depth 1 https://github.com/RedSiege/EyeWitness.git /root/opt/eyewitness/ && \
+    /root/opt/eyewitness/Python/setup/setup.sh 
 
 #--------------------------------------------------------------------------------------------------
 # Scanners 
 
-# nuclei
-# Vul scanner
-RUN wget -P /tmp https://github.com/projectdiscovery/nuclei/releases/download/v2.9.15/nuclei_2.9.15_linux_amd64.zip && \
+RUN apt update && \ 
+
+    # nuclei Vul scanner
+    wget -P /tmp https://github.com/projectdiscovery/nuclei/releases/download/v2.9.15/nuclei_2.9.15_linux_amd64.zip && \
     unzip -d /root/opt/bin /tmp/nuclei_2.9.15_linux_amd64.zip && \
     rm /tmp/nuclei_2.9.15_linux_amd64.zip && \
     # run once to install the templates
-    /root/opt/bin/nuclei
+    /root/opt/bin/nuclei && \
 
-#nikto
-RUN apt install nikto -y
+    #nikto
+    apt install nikto -y && \
 
-# sqlamp
-# SQLi scanner
-RUN apt install sqlmap -y
+    # sqlamp SQLi scanner
+    apt install sqlmap -y && \
 
-# xssstrike
-# XSS scanner
-RUN wget -P /tmp "https://github.com/s0md3v/XSStrike/archive/refs/tags/3.1.5.tar.gz" && \
+    # xssstrike XSS scanner
+    wget -P /tmp "https://github.com/s0md3v/XSStrike/archive/refs/tags/3.1.5.tar.gz" && \
     tar -C /root/opt -xvzf /tmp/3.1.5.tar.gz && \
     chmod u+x /root/opt/XSStrike-3.1.5/xsstrike.py && \
     ln -s /root/opt/XSStrike-3.1.5/xsstrike.py /root/opt/bin/xssstrike && \
@@ -176,24 +173,23 @@ RUN wget -P /tmp "https://github.com/s0md3v/XSStrike/archive/refs/tags/3.1.5.tar
 #--------------------------------------------------------------------------------------------------
 # tomnomnom tools
 
-# anew
-# like tee, but no duplicates
+    # anew - like tee, but no duplicates
 RUN /usr/local/go/bin/go install -v github.com/tomnomnom/anew@latest && \
     mv go/bin/anew opt/bin/ && \
-    rm -rf /root/go
+    rm -rf /root/go && \
 
-# fff
-# fairly fast fetcher: a fast content downloader
-RUN git clone --depth 1 https://github.com/tomnomnom/fff.git /tmp/fff && \
+    # fff
+    # fairly fast fetcher: a fast content downloader
+    git clone --depth 1 https://github.com/tomnomnom/fff.git /tmp/fff && \
     cd /tmp/fff && \
     /usr/local/go/bin/go build && \
     cp /tmp/fff/fff /root/opt/bin && \
     rm -rf /tmp/fff && \
-    cd -
+    cd - && \
 
-# gf
-# A nice grep wrapper looking for interesting stuff
-RUN git clone --depth 1 https://github.com/tomnomnom/gf.git /tmp/gf && \
+    # gf
+    # A nice grep wrapper looking for interesting stuff
+    git clone --depth 1 https://github.com/tomnomnom/gf.git /tmp/gf && \
     cd /tmp/gf && \
     /usr/local/go/bin/go mod init gf && \
     /usr/local/go/bin/go mod tidy  && \
@@ -202,61 +198,58 @@ RUN git clone --depth 1 https://github.com/tomnomnom/gf.git /tmp/gf && \
     mkdir /root/.gf && \
     cp -R /tmp/gf/examples/* /root/.gf/ && \
     rm -rf /tmp/gf && \
-    cd -
+    cd - && \
 
-# unfurl
-# url remover 
-RUN wget https://github.com/tomnomnom/unfurl/releases/download/v0.4.3/unfurl-linux-amd64-0.4.3.tgz -O /tmp/unfurl.tgz && \
-   tar -C /root/opt/bin -xf /tmp/unfurl.tgz && \
-   rm -rf /tmp/unfurl.tgz
+    # unfurl url remover 
+    wget https://github.com/tomnomnom/unfurl/releases/download/v0.4.3/unfurl-linux-amd64-0.4.3.tgz -O /tmp/unfurl.tgz && \
+    tar -C /root/opt/bin -xf /tmp/unfurl.tgz && \
+    rm -rf /tmp/unfurl.tgz && \
 
-# wayback url
-# wayback client
-RUN /usr/local/go/bin/go install github.com/tomnomnom/waybackurls@latest && \
+    # wayback url wayback client
+    /usr/local/go/bin/go install github.com/tomnomnom/waybackurls@latest && \
     mv go/bin/waybackurls opt/bin/ && \
     rm -rf /root/go
-
 
 #--------------------------------------------------------------------------------------------------
 # Crackers
 
-# hydra
-# genaral cracker
-#hdydra requires debconf which comes with an interactive q&a installation by default. 
-#we don't want this so we set DEBIAN_FRONTEND to "noninteractive"
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y hydra
+RUN apt update && \ 
 
-# hashcat
-# hash cracker
-RUN apt install hashcat -y
+    # hydra
+    # genaral cracker
+    #hdydra requires debconf which comes with an interactive q&a installation by default. 
+    #we don't want this so we set DEBIAN_FRONTEND to "noninteractive"
+    DEBIAN_FRONTEND=noninteractive apt install -y hydra && \
 
-# john
-RUN apt -y install libssl-dev && \
-  git clone --depth 1 https://github.com/openwall/john.git /tmp/john && \
-  cd /tmp/john/src && ./configure && make -sj4 && mkdir -p /root/opt/john &&  \
-  cp -R /tmp/john/run/* /root/opt/john && \
-  rm -rf /tmp/john
+    # hashcat hash cracker
+    apt install hashcat -y && \
+
+    # john
+    apt -y install libssl-dev && \
+    git clone --depth 1 https://github.com/openwall/john.git /tmp/john && \
+    cd /tmp/john/src && ./configure && make -sj4 && mkdir -p /root/opt/john &&  \
+    cp -R /tmp/john/run/* /root/opt/john && \
+    rm -rf /tmp/john
 
 #--------------------------------------------------------------------------------------------------
 # Exploits 
 
-# searchsploit
-RUN git clone --depth 1 https://gitlab.com/exploit-database/exploitdb.git /opt/exploitdb && \
-  ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
+RUN apt update && \
 
-# metasploit
-# explit framework
-RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall && \
-  apt update && \
-  chmod 755 /tmp/msfinstall && \
-  /tmp/msfinstall && \
-  rm /tmp/msfinstall
+    # searchsploit
+    git clone --depth 1 https://gitlab.com/exploit-database/exploitdb.git /opt/exploitdb && \
+    ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit && \
+
+    # metasploit - exploit framwework
+    curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall && \
+    chmod 755 /tmp/msfinstall && \
+    /tmp/msfinstall && \
+    rm /tmp/msfinstall
 
 #--------------------------------------------------------------------------------------------------
 # Mobile
 
-# apk tooling
-# Leak scanner
+    # apk tooling Leak scanner
 RUN pip3 install apkleaks && \
     wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool -O /root/opt/bin/apktool && \
     chmod u+x /root/opt/bin/apktool && \
@@ -265,32 +258,32 @@ RUN pip3 install apkleaks && \
 #--------------------------------------------------------------------------------------------------
 # AWS
 
-# aws cli
+    # aws cli
 RUN curl -P /tmp "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip" && \
-  cd /tmp && \
-  unzip awscliv2.zip && \ 
-  /tmp//aws/install && \
-  rm -rf /tmp/aws*
+    cd /tmp && \
+    unzip awscliv2.zip && \ 
+    /tmp//aws/install && \
+    rm -rf /tmp/aws*
 
 #--------------------------------------------------------------------------------------------------
 # bl155x0
 
-# jsloot
+    # jsloot
 RUN pip install jsbeautifier && \
-  /usr/local/go/bin/go install github.com/bl155x0/jsloot@latest && \
-  mv go/bin/jsloot opt/bin/ && \
-  rm -rf /root/go
+    /usr/local/go/bin/go install github.com/bl155x0/jsloot@latest && \
+    mv go/bin/jsloot opt/bin/ && \
+    rm -rf /root/go
 
 #--------------------------------------------------------------------------------------------------
 # JavaScript
 
-# node, npm and eslint
+    # node, npm and eslint
 RUN cd /tmp && wget https://nodejs.org/dist/v20.12.0/node-v20.12.0-linux-x64.tar.xz && \
-  tar xf node-v20.12.0-linux-x64.tar.xz -C /opt && \
-  export PATH=$PATH:/opt/node-v20.12.0-linux-x64/bin/ && \
-  npm install -g --save-dev eslint eslint-plugin-security && \
-  cd /root &&  git clone https://github.com/Greenwolf/eslint-security-scanner-configs && \
-  cd /root/eslint-security-scanner-configs && npm install eslint-plugin-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-config-standard eslint-config-semistandard eslint-plugin-scanjs-rules eslint-plugin-no-unsanitized eslint-plugin-prototype-pollution-security-rules eslint-plugin-angularjs-security-rules eslint-plugin-react eslint-plugin-no-wildcard-postmessage eslint-plugin-html@latest --save-dev
+    tar xf node-v20.12.0-linux-x64.tar.xz -C /opt && \
+    export PATH=$PATH:/opt/node-v20.12.0-linux-x64/bin/ && \
+    npm install -g --save-dev eslint eslint-plugin-security && \
+    cd /root &&  git clone https://github.com/Greenwolf/eslint-security-scanner-configs && \
+    cd /root/eslint-security-scanner-configs && npm install eslint-plugin-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-config-standard eslint-config-semistandard eslint-plugin-scanjs-rules eslint-plugin-no-unsanitized eslint-plugin-prototype-pollution-security-rules eslint-plugin-angularjs-security-rules eslint-plugin-react eslint-plugin-no-wildcard-postmessage eslint-plugin-html@latest --save-dev
 
 #--------------------------------------------------------------------------------------------------
 # smuggler
@@ -298,10 +291,14 @@ RUN cd /root/opt && git clone --depth 1 https://github.com/defparam/smuggler.git
 
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
-# smbclient including rpcclient
-RUN apt install -y smbclient && \
+
+RUN apt update && \
+
+    # smbclient including rpcclient
+    apt install -y smbclient && \
     wget https://raw.githubusercontent.com/CiscoCXSecurity/enum4linux/master/enum4linux.pl -O /root/opt/bin/enum4linux && \
-    chmod u+x /root/opt/bin/enum4linux
+    chmod u+x /root/opt/bin/enum4linux && \
+    pip3 install smbmap
 
 #--------------------------------------------------------------------------------------------------
 # /var/www - stuff to serve 
@@ -316,28 +313,27 @@ RUN mkdir /var/www && \
    wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/ncat
 
 #--------------------------------------------------------------------------------------------------
-# sql tools
-RUN apt install mysql-client -y
+# SQL 
+RUN apt update && \ 
+
+    #mysql client
+    apt install mysql-client -y
 
 #--------------------------------------------------------------------------------------------------
-# impacket - network libraries and offensive toolings
+# Windows offensive
+
+     # impacket - network libraries and offensive toolings
  RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket && \
-   cd /root/opt/impacket/ && pip install .
+     cd /root/opt/impacket/ && pip install . && \
 
-#--------------------------------------------------------------------------------------------------
-# Responder - Poisoner - https://github.com/lgandx/Responder
-RUN git clone --depth 1 https://github.com/lgandx/Responder.git /root/opt/responder && \
-  cd /root/opt/responder && pip3 install -r requirements.txt && \
-  cd -
+    # Responder - Poisoner - https://github.com/lgandx/Responder
+    git clone --depth 1 https://github.com/lgandx/Responder.git /root/opt/responder && \
+    cd /root/opt/responder && pip3 install -r requirements.txt && \
+    cd -
 
 #--------------------------------------------------------------------------------------------------
 #SMTP
-RUN apt install -y snmp
+RUN apt update && apt install -y snmp
 
 #--------------------------------------------------------------------------------------------------
-
-  
-#--------------------------------------------------------------------------------------------------
-# locate
-RUN apt install -y mlocate
-
+# EOF
