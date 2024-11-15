@@ -290,17 +290,6 @@ RUN cd /tmp && wget https://nodejs.org/dist/v20.12.0/node-v20.12.0-linux-x64.tar
 RUN cd /root/opt && git clone --depth 1 https://github.com/defparam/smuggler.git
 
 #--------------------------------------------------------------------------------------------------
-#smb/cifs stuff
-
-RUN apt update && \
-
-    # smbclient including rpcclient
-    apt install -y smbclient && \
-    wget https://raw.githubusercontent.com/CiscoCXSecurity/enum4linux/master/enum4linux.pl -O /root/opt/bin/enum4linux && \
-    chmod u+x /root/opt/bin/enum4linux && \
-    pip3 install smbmap
-
-#--------------------------------------------------------------------------------------------------
 # /var/www - stuff to serve 
 RUN mkdir /var/www && \
    wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh && \
@@ -330,6 +319,24 @@ RUN apt update && \
     git clone --depth 1 https://github.com/lgandx/Responder.git /root/opt/responder && \
     cd /root/opt/responder && pip3 install -r requirements.txt && \
     cd -
+
+#--------------------------------------------------------------------------------------------------
+#smb/cifs stuff
+
+RUN apt update && \
+
+    # smbclient including rpcclient
+    apt install -y smbclient && \
+
+    #enum4linux-ng
+    apt install -y python3-ldap3 python3-yaml && \
+    wget https://github.com/cddmp/enum4linux-ng/archive/refs/tags/v1.3.4.zip -O /tmp/enum4linux.zip && \
+    unzip /tmp/enum4linux -d /tmp && \
+    cp /tmp/enum4linux-ng-1.3.4/enum4linux-ng.py /root/opt/bin && \
+    chmod u+x /root/opt/bin/enum4linux-ng.py && \
+
+    #smbmap
+    pip3 install smbmap
 
 #--------------------------------------------------------------------------------------------------
 #SMTP
