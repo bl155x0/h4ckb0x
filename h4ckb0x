@@ -1,9 +1,43 @@
 #!/bin/bash
+
+# Help function
+show_help() {
+  echo "Usage: $0 [options]"
+  echo
+  echo "Options:"
+  echo "  --privileged, -p     Run the container in privileged mode."
+  echo "  --help, -h           Display this help message."
+}
+
+# Parse command-line arguments
+PRIVILEGED=false
+for arg in "$@"; do
+  case $arg in
+    --privileged|-p)
+      PRIVILEGED=true
+      shift
+      ;;
+    --help|-h)
+      show_help
+      exit 0
+      ;;
+    *)
+      echo "Error: Unknown argument '$arg'"
+      show_help
+      exit 1
+      ;;
+  esac
+done
+
 mkdir -p /tmp/h4ckb0x
 DOCKER_PARAMS="--rm \
 --network="host" \
 --mount type=bind,source=$HACKBOX_PROJECT_DIR,target=/root/projects \
 --mount type=bind,source=/tmp/h4ckb0x,target=/tmp"
+# Running as a privileged container if PRIVILEGED is set
+if [ "$PRIVILEGED" = true ]; then
+  DOCKER_PARAMS="$DOCKER_PARAMS --privileged=true"
+fi
 
 if [ -n "$HACKBOX_PROJECT_DIR" ]; then
     if [ -f $HOME/.h4ckb0x.env ]; then 
@@ -13,3 +47,5 @@ if [ -n "$HACKBOX_PROJECT_DIR" ]; then
 else 
     echo "Error: HACKBOX_PROJECT_DIR is undefined. Please point the HACKBOX_PROJECT_DIR variable to a directory representing your h4ckb0x working directory."
 fi
+
+
