@@ -93,8 +93,8 @@ RUN wget -P /tmp https://github.com/owasp-amass/amass/releases/download/v4.2.0/a
     git clone --depth 1 https://github.com/fwaeytens/dnsenum /tmp/dnsenum && \
     apt install -y cpanminus && \
     cpanm String::Random Net::IP Net::DNS Net::Netmask XML::Writer && \
-    mv /tmp/dnsenum/dnsenum.pl /root/opt/bin/dnsenum && chmod u+x /root/opt/bin/dnsenum
-
+    mv /tmp/dnsenum/dnsenum.pl /root/opt/bin/dnsenum && chmod u+x /root/opt/bin/dnsenum && \
+    rm -rf /tmp/dnsenum
 
 #--------------------------------------------------------------------------------------------------
 # URL/File Enumeration
