@@ -60,6 +60,9 @@ RUN apt update && \
     # SecLists
     git clone --depth 1 https://github.com/danielmiessler/SecLists.git /root/opt/wordlists/SecLists && \
 
+    # n0kovo subdomain
+    git clone --depth 1  https://github.com/n0kovo/n0kovo_subdomains /root/opt/wordlists/n0kovo && \
+
     # custom wordlists generator
     apt install cewl -y
 
