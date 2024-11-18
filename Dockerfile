@@ -279,7 +279,13 @@ RUN curl -P /tmp "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "
 RUN pip install jsbeautifier && \
     /usr/local/go/bin/go install github.com/bl155x0/jsloot@latest && \
     mv go/bin/jsloot opt/bin/ && \
-    rm -rf /root/go
+    rm -rf /root/go && \
+
+   # findwordlist
+   git clone --depth 1 https://github.com/bl155x0/findwordlist.git /tmp/findwordlist && \
+   cd /tmp/findwordlist && /usr/local/go/bin/go build && \
+   chmod u+x findwordlist && mv findwordlist /root/opt/bin/findwordlist && \
+   cd -
 
 #--------------------------------------------------------------------------------------------------
 # JavaScript
