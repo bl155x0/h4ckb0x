@@ -364,6 +364,15 @@ RUN apt update && \
 
 #--------------------------------------------------------------------------------------------------
 #SMTP
+    #Perl based smtp-user-enum
+RUN wget https://raw.githubusercontent.com/pentestmonkey/smtp-user-enum/refs/heads/master/smtp-user-enum.pl -P /root/opt/bin/ && \
+    chmod u+x /root/opt/bin/smtp-user-enum.pl && \
+
+    #Python based smtp-user-enum
+    pip install smtp-user-enum
+
+#--------------------------------------------------------------------------------------------------
+#SNMP
 RUN apt update && apt install -y snmp
 
 #--------------------------------------------------------------------------------------------------
