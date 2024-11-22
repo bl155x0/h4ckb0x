@@ -326,11 +326,28 @@ RUN mkdir /var/www && \
    wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/ncat
 
 #--------------------------------------------------------------------------------------------------
-# SQL 
+# Database - SQL 
 RUN apt update && \ 
 
     #mysql client
-    apt install mysql-client -y
+    apt install mysql-client -y && \
+
+    # oracle - sql plus
+    apt install libaio1 -y && \
+    wget -P /tmp/ https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-basic-linux.x64-21.4.0.0.0dbru.zip && \
+    wget -P /tmp/ https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-sqlplus-linux.x64-21.4.0.0.0dbru.zip && \
+    cd /tmp && unzip instantclient-basic-linux.x64-21.4.0.0.0dbru.zip && unzip instantclient-sqlplus-linux.x64-21.4.0.0.0dbru.zip && \
+    mv instantclient_21_4 /root/opt/sqlplus && cd - && \
+    echo "/root/opt/sqlplus" > /etc/ld.so.conf.d/oracle-instantclient.conf && ldconfig && \
+    ln -s /root/opt/sqlplus/sqlplus /root/opt/bin/sqlplus && \
+    rm -rf /tmp/* && \
+
+
+    # ODAT - Oracle Database Attacking Tool  
+    wget -P /tmp/ "https://github.com/quentinhardy/odat/releases/download/5.1.1/odat-linux-libc2.17-x86_64.tar.gz" && \
+    tar -C /root/opt/ -xvf /tmp/odat-linux-libc2.17-x86_64.tar.gz && \
+    ln -s /root/opt/odat-libc2.17-x86_64/odat-libc2.17-x86_64 /root/opt/bin/odat && \
+    rm -rf /tmp/odat*
 
 #--------------------------------------------------------------------------------------------------
 # Windows offensive
@@ -373,7 +390,16 @@ RUN wget https://raw.githubusercontent.com/pentestmonkey/smtp-user-enum/refs/hea
 
 #--------------------------------------------------------------------------------------------------
 #SNMP
-RUN apt update && apt install -y snmp
+RUN apt update && \
+
+    # snmp - snmpwalk: snmp query tool
+    apt install -y snmp && \
+
+    # onesixtyone  - snmp scanner
+    apt install -y onesixtyone && \
+
+    # braa - a mass snmp scanner
+    apt install -y braa
 
 #--------------------------------------------------------------------------------------------------
 # EOF
