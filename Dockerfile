@@ -49,7 +49,10 @@ RUN apt update && \
     rm /tmp/go1.23.1.linux-amd64.tar.gz && \
 
     # Java
-    apt install openjdk-17-jdk openjdk-17-jre -y
+    apt install openjdk-17-jdk openjdk-17-jre -y && \
+
+    # Ruby
+    apt install ruby-dev -y
 
 #--------------------------------------------------------------------------------------------------
 #Wordlists
@@ -372,8 +375,10 @@ RUN apt update && \
     # RDP
     cpanm Encoding::BER && \
     git clone --depth 1 https://github.com/CiscoCXSecurity/rdp-sec-check.git /root/opt/rdp-sec-check && \
-    ln -s /root/opt/rdp-sec-check/rdp-sec-check.pl /root/opt/bin/rdp-sec-check.pl
+    ln -s /root/opt/rdp-sec-check/rdp-sec-check.pl /root/opt/bin/rdp-sec-check.pl && \
 
+    # evil-winrm for a WinRM shell
+    gem install evil-winrm
 
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
