@@ -2,7 +2,7 @@
 # - h4ckb0x - A simple hacking environment -
 #--------------------------------------------------------------------------------------------------
 
-FROM docker.io/ubuntu:20.04
+FROM docker.io/ubuntu:22.04
 LABEL Description="h4ckb0x: A simple hacking environment as docker image."
 
 #--------------------------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/
 ## programming languages
 RUN apt update && \
     # Python
-    apt install -y python python3 python3-pip && pip3 install requests && \
+    apt install -y python3 python3-pip && pip3 install requests && \
 
     # Go
     wget -P /tmp https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \ 
