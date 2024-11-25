@@ -10,14 +10,16 @@ LABEL Description="h4ckb0x: A simple hacking environment as docker image."
 # basic system tools we need
 RUN apt update && apt upgrade -y && \
     export DEBIAN_FRONTEND=noninteractive && \
-    apt install iputils-ping unzip vim netcat socat nmap curl wget git net-tools -y && \ 
+    apt install iputils-ping unzip vim netcat socat curl wget git net-tools -y && \ 
     apt install jq -y && \
     apt install dnsutils -y && \
     apt install libgbm1 -y && \
+    apt install rsync -y && \
     apt install libxkbcommon-x11-0 -y && \
     apt install ftp nfs-common -y && \
     apt install mlocate -y && \
-    apt install sudo -y 
+    apt install sudo -y && \
+    apt install alien -y
 
 #Home directory
 ADD data /root
@@ -159,6 +161,12 @@ RUN apt update && \
 # Scanners 
 
 RUN apt update && \ 
+
+    # famous nmap - recent version
+    wget -P /tmp https://nmap.org/dist/nmap-7.95-3.x86_64.rpm && \
+    cd /tmp/ && alien -k nmap-7.95-3.x86_64.rpm && \
+    dpkg -i ./nmap_7.95-3_amd64.deb && \
+    cd - && rm -rf /tmp/* && \
 
     # nuclei Vul scanner
     wget -P /tmp https://github.com/projectdiscovery/nuclei/releases/download/v2.9.15/nuclei_2.9.15_linux_amd64.zip && \
@@ -377,7 +385,7 @@ RUN apt update && \
     chmod u+x /root/opt/bin/enum4linux-ng.py && \
 
     #smbmap
-    pip3 install smbmap
+   pip3 install smbmap
 
 #--------------------------------------------------------------------------------------------------
 #SMTP
@@ -400,6 +408,17 @@ RUN apt update && \
 
     # braa - a mass snmp scanner
     apt install -y braa
+
+#--------------------------------------------------------------------------------------------------
+#ssh
+RUN pip3 install ssh-audit
+
+#--------------------------------------------------------------------------------------------------
+#IPMI 
+RUN apt update && \
+
+    # ipmitool - snmpwalk: snmp query tool
+    apt install -y ipmitool
 
 #--------------------------------------------------------------------------------------------------
 # EOF
