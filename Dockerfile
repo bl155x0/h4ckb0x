@@ -417,13 +417,14 @@ RUN apt update && \
 
 #--------------------------------------------------------------------------------------------------
 #ssh
+    #Tool  for auditing ssh servers
 RUN pip3 install ssh-audit
 
 #--------------------------------------------------------------------------------------------------
 #IPMI 
 RUN apt update && \
 
-    # ipmitool - snmpwalk: snmp query tool
+    # ipmitool - tool to interact with IPMI devices 
     apt install -y ipmitool
 
 #--------------------------------------------------------------------------------------------------
