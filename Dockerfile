@@ -367,7 +367,13 @@ RUN apt update && \
     # Responder - Poisoner - https://github.com/lgandx/Responder
     git clone --depth 1 https://github.com/lgandx/Responder.git /root/opt/responder && \
     cd /root/opt/responder && pip3 install -r requirements.txt && \
-    cd -
+    cd - && \
+
+    # RDP
+    cpanm Encoding::BER && \
+    git clone --depth 1 https://github.com/CiscoCXSecurity/rdp-sec-check.git /root/opt/rdp-sec-check && \
+    ln -s /root/opt/rdp-sec-check/rdp-sec-check.pl /root/opt/bin/rdp-sec-check.pl
+
 
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
