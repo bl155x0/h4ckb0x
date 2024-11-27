@@ -35,7 +35,8 @@ RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/
     echo "alias nmapq='nmap -n -sC -sV'" >> /root/.bashrc && \
     echo "alias eslintsec='eslint -c ~/eslint-security-scanner-configs/eslintrc-light.js *.js'" >> /root/.bashrc && \
     echo "alias ffufu='ffuf -H \"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0\"'" >> /root/.bashrc  && \
-    echo "alias smuggler='/root/opt/smuggler/smuggler.py'" >> /root/.bashrc
+    echo "alias smuggler='/root/opt/smuggler/smuggler.py'" >> /root/.bashrc && \
+    echo "alias reconspider='python3 /root/opt/bin/ReconSpider.py'" >> /root/.bashrc
 
 #--------------------------------------------------------------------------------------------------
 ## programming languages
@@ -111,6 +112,12 @@ RUN wget -P /tmp https://github.com/owasp-amass/amass/releases/download/v4.2.0/a
 RUN /usr/local/go/bin/go install github.com/projectdiscovery/katana/cmd/katana@latest && \
     mv go/bin/katana opt/bin/ && \
     rm -rf /root/go && \
+
+    # Recon Spider
+    pip3 install scrapy && \
+    cd /tmp && wget -O ReconSpider.zip https://academy.hackthebox.com/storage/modules/144/ReconSpider.v1.2.zip && \
+    unzip ReconSpider.zip && mv ./ReconSpider.py /root/opt/bin/ && \
+    cd - && rm -rf /tmp/* && \
 
     # gau - getallurls - OSINT url discovery
     /usr/local/go/bin/go  install github.com/lc/gau/v2/cmd/gau@latest && \
