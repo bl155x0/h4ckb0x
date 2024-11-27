@@ -307,7 +307,13 @@ RUN pip install jsbeautifier && \
    chmod u+x godork && mv godork /root/opt/bin && \
    mv dorks.txt /root/opt/wordlists && \
    echo -n 'export GODORK_DORKFILE="/root/opt/wordlists/dorks.txt"' >> /root/.bashrc && \
-   rm -rf /tmp/godork && cd -
+   rm -rf /tmp/godork && cd - && \
+
+  # gocrtsh
+   git clone --depth 1 https://github.com/bl155x0/gocrtsh.git /tmp/gocrtsh && \
+   cd /tmp/godork && /usr/local/go/bin/go build && \
+   chmod u+x gocrtsh && mv gocrtsh /root/opt/bin && \
+   rm -rf /tmp/gocrtsh && cd -
 
 #--------------------------------------------------------------------------------------------------
 # JavaScript
