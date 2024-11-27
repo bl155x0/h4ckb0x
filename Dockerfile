@@ -202,6 +202,16 @@ RUN apt update && \
     rm /tmp/3.1.5.tar.gz
 
 #--------------------------------------------------------------------------------------------------
+# Auto Recon tools
+
+RUN cd /tmp && \ 
+
+  # final-recon
+  git clone --depth 1 https://github.com/thewhiteh4t/FinalRecon.git && \
+  cd FinalRecon && pip3 install -r requirements.txt && chmod +x ./finalrecon.py && \
+  mv /tmp/FinalRecon /root/opt/ && ln -s /root/opt/FinalRecon/finalrecon.py ~/opt/bin/finalrecon
+
+#--------------------------------------------------------------------------------------------------
 # tomnomnom tools
 
     # anew - like tee, but no duplicates
