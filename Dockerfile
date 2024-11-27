@@ -181,6 +181,9 @@ RUN apt update && \
     #nikto
     apt install nikto -y && \
 
+    # WAF detection scanner
+    pip install git+https://github.com/EnableSecurity/wafw00f.git && \
+
     # sqlamp SQLi scanner
     apt install sqlmap -y && \
 
@@ -311,7 +314,7 @@ RUN pip install jsbeautifier && \
 
   # gocrtsh
    git clone --depth 1 https://github.com/bl155x0/gocrtsh.git /tmp/gocrtsh && \
-   cd /tmp/godork && /usr/local/go/bin/go build && \
+   cd /tmp/gocrtsh && /usr/local/go/bin/go build && \
    chmod u+x gocrtsh && mv gocrtsh /root/opt/bin && \
    rm -rf /tmp/gocrtsh && cd -
 
