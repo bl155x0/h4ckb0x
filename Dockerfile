@@ -360,7 +360,11 @@ RUN mkdir /var/www && \
    wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc.exe && \
    wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc64.exe && \
    wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat && \
-   wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/ncat
+   wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/ncat && \
+   wget -P /var/www https://github.com/juliourena/plaintext/blob/master/Powershell/PSUpload.ps1 && \
+
+   # also install an upload server to receive files via http
+   pip3 install uploadserver
 
 #--------------------------------------------------------------------------------------------------
 # Database - SQL 
@@ -422,7 +426,11 @@ RUN apt update && \
     chmod u+x /root/opt/bin/enum4linux-ng.py && \
 
     #smbmap
-   pip3 install smbmap
+    pip3 install smbmap && \
+
+    # python based ftp server for file transfer
+    pip3 install pyftpdlib
+
 
 #--------------------------------------------------------------------------------------------------
 #SMTP
