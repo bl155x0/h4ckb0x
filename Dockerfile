@@ -364,7 +364,10 @@ RUN mkdir /var/www && \
    wget -P /var/www https://github.com/juliourena/plaintext/blob/master/Powershell/PSUpload.ps1 && \
 
    # also install an upload server to receive files via http
-   pip3 install uploadserver
+   pip3 install uploadserver && \
+
+  # A WebDAV server for alternative file transfer via http
+   pip3 install wsgidav cheroot
 
 #--------------------------------------------------------------------------------------------------
 # Database - SQL 
