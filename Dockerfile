@@ -10,7 +10,7 @@ LABEL Description="h4ckb0x: A simple hacking environment as docker image."
 # basic system tools we need
 RUN apt update && apt upgrade -y && \
     export DEBIAN_FRONTEND=noninteractive && \
-    apt install iputils-ping unzip vim netcat socat curl wget git net-tools whois -y && \ 
+    apt install iputils-ping unzip vim netcat ncat socat curl wget git net-tools whois -y && \ 
     apt install jq -y && \
     apt install dnsutils -y && \
     apt install libgbm1 -y && \
@@ -19,7 +19,8 @@ RUN apt update && apt upgrade -y && \
     apt install ftp nfs-common -y && \
     apt install mlocate -y && \
     apt install sudo -y && \
-    apt install alien -y
+    apt install alien -y && \
+    apt install -y openssh-server && mkdir -p /run/sshd && chmod 0755 /run/sshd
 
 #Home directory
 ADD data /root
@@ -361,7 +362,8 @@ RUN mkdir /var/www && \
    wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc64.exe && \
    wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat && \
    wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/ncat && \
-   wget -P /var/www https://github.com/juliourena/plaintext/blob/master/Powershell/PSUpload.ps1 && \
+   wget -P /var/www https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1 && \
+   wget -P /var/www https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-AESEncryption.ps1 && \
 
    # also install an upload server to receive files via http
    pip3 install uploadserver && \
