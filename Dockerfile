@@ -289,6 +289,14 @@ RUN apt update && \
     rm /tmp/msfinstall
 
 #--------------------------------------------------------------------------------------------------
+# Web Shells
+Run mkdir -p /root/opt/web-shells/ && git clone --depth 1 https://github.com/jbarcia/Web-Shells /tmp/Web-Shells && \
+  
+  # laudanum
+  mv /tmp/Web-Shells/laudanum /root/opt/web-shells/laudanum && \
+
+  rm -rf /tmp/Web-Shells
+#--------------------------------------------------------------------------------------------------
 # Mobile
 
     # apk tooling Leak scanner
@@ -414,7 +422,10 @@ RUN apt update && \
     ln -s /root/opt/rdp-sec-check/rdp-sec-check.pl /root/opt/bin/rdp-sec-check.pl && \
 
     # evil-winrm for a WinRM shell
-    gem install evil-winrm
+    gem install evil-winrm && \
+
+    # Nishang offensive Powershell scripts  inkl. "Antak" Web Shells
+    git clone --depth 1 https://github.com/samratashok/nishang /root/opt/nishang
 
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
