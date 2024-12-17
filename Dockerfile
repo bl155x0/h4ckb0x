@@ -294,8 +294,11 @@ Run mkdir -p /root/opt/web-shells/ && git clone --depth 1 https://github.com/jba
   
   # laudanum
   mv /tmp/Web-Shells/laudanum /root/opt/web-shells/laudanum && \
+  rm -rf /tmp/Web-Shells && \
 
-  rm -rf /tmp/Web-Shells
+  # wwwolf-php-webshell
+  git clone --depth 1  https://github.com/WhiteWinterWolf/wwwolf-php-webshell /root/opt/web-shells/wwwolf-php-webshell
+
 #--------------------------------------------------------------------------------------------------
 # Mobile
 
