@@ -37,7 +37,8 @@ RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/
     echo "alias eslintsec='eslint -c ~/eslint-security-scanner-configs/eslintrc-light.js *.js'" >> /root/.bashrc && \
     echo "alias ffufu='ffuf -H \"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0\"'" >> /root/.bashrc  && \
     echo "alias smuggler='/root/opt/smuggler/smuggler.py'" >> /root/.bashrc && \
-    echo "alias reconspider='python3 /root/opt/bin/ReconSpider.py'" >> /root/.bashrc
+    echo "alias reconspider='python3 /root/opt/bin/ReconSpider.py'" >> /root/.bashrc && \
+    echo "alias msfconsole='msfconsole -x \"db_connect msfuser:\$POSTGRES_MSFDB_PASS@127.0.0.1:5432/msfdb; db_status\"'" >> /root/.bashrc
 
 #--------------------------------------------------------------------------------------------------
 ## programming languages
