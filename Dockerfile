@@ -488,4 +488,21 @@ RUN apt update && \
     apt install -y ipmitool
 
 #--------------------------------------------------------------------------------------------------
+# compression tools
+RUN cd /tmp && \
+  
+  # rarlinux
+  wget https://www.rarlab.com/rar/rarlinux-x64-612.tar.gz && \
+  tar xvzf rarlinux-x64-612.tar.gz && \
+  cp ./rar/rar /root/opt/bin &&  \
+  cp ./rar/unrar /root/opt/bin && \
+  rm -rf /tmp/rar && rm /tmp/rarlinux-x64-612.tar.gz && \
+
+  # upx packer
+  wget https://github.com/upx/upx/releases/download/v4.2.4/upx-4.2.4-amd64_linux.tar.xz && \
+  tar xvf upx-4.2.4-amd64_linux.tar.xz && \
+  mv /tmp/upx-4.2.4-amd64_linux/upx /root/opt/bin/ && \
+  rm -rf /tmp/upx-4.2.4-amd64_linux
+
+#--------------------------------------------------------------------------------------------------
 # EOF
