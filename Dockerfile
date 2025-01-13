@@ -1,4 +1,4 @@
-#--------------------------------------------------------------------------------------------------
+#------------------------------------------------Y--------------------------------------------------
 # - h4ckb0x - A simple hacking environment -
 #--------------------------------------------------------------------------------------------------
 
@@ -31,6 +31,7 @@ RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/
     echo "export RECONAUT_TEMPLATES=/root/reconaut-templates/" >> /root/.bashrc &&  \
     echo "PS1='\[\033[0;31m\]\u \e[31m$(parse_if_root)\[\033[0;37m\]at \[\033[0;31m\]h4ckb0x \[\033[0;37m\]in \[\033[0;31m\]\w \[\033[1;35m\]$(parse_git_branch)\n\[\033[1;35m\] \[\033[0m\]'" >> /root/.bashrc && \
     echo "PATH=\$PATH:/usr/local/go/bin" >> /root/.bashrc && \
+    echo "PATH=\$PATH:/root/.local/bin" >> /root/.bashrc && \
     echo "cat /root/etc/motd" >> /root/.bashrc && \
     echo "alias p='ping -c 1'" >> /root/.bashrc && \ 
     echo "alias nmapq='nmap -n -sC -sV'" >> /root/.bashrc && \
@@ -429,7 +430,13 @@ RUN apt update && \
     gem install evil-winrm && \
 
     # Nishang offensive Powershell scripts  inkl. "Antak" Web Shells
-    git clone --depth 1 https://github.com/samratashok/nishang /root/opt/nishang
+    git clone --depth 1 https://github.com/samratashok/nishang /root/opt/nishang && \
+
+    # netexec
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt install -y pipx git && \
+    pipx ensurepath && \
+    pipx install git+https://github.com/Pennyw0rth/NetExec
 
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
