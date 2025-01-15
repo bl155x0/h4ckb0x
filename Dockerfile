@@ -72,6 +72,9 @@ RUN apt update && \
     # n0kovo subdomain
     git clone --depth 1  https://github.com/n0kovo/n0kovo_subdomains /root/opt/wordlists/n0kovo && \
 
+    # creds: Default password database / tool
+    pip3 install defaultcreds-cheat-sheet && \
+
     # custom wordlists generator
     apt install cewl -y
 
@@ -273,7 +276,10 @@ RUN apt update && \
     git clone --depth 1 https://github.com/openwall/john.git /tmp/john && \
     cd /tmp/john/src && ./configure && make -sj4 && mkdir -p /root/opt/john &&  \
     cp -R /tmp/john/run/* /root/opt/john && \
-    rm -rf /tmp/john
+    rm -rf /tmp/john && \
+
+    # rulesets
+    wget https://raw.githubusercontent.com/stealthsploit/OneRuleToRuleThemStill/refs/heads/main/OneRuleToRuleThemStill.rule -O /root/opt/rulesets/OneRuleToRuleThemStill.rule
 
 #--------------------------------------------------------------------------------------------------
 # Exploits 
