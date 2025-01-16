@@ -258,7 +258,7 @@ RUN /usr/local/go/bin/go install -v github.com/tomnomnom/anew@latest && \
     rm -rf /root/go
 
 #--------------------------------------------------------------------------------------------------
-# Crackers
+# Crackers and other password tools
 
 RUN apt update && \ 
 
@@ -277,9 +277,14 @@ RUN apt update && \
     cd /tmp/john/src && ./configure && make -sj4 && mkdir -p /root/opt/john &&  \
     cp -R /tmp/john/run/* /root/opt/john && \
     rm -rf /tmp/john && \
+    cd - && \
 
-    # rulesets
-    wget https://raw.githubusercontent.com/stealthsploit/OneRuleToRuleThemStill/refs/heads/main/OneRuleToRuleThemStill.rule -O /root/opt/rulesets/OneRuleToRuleThemStill.rule
+    # rulesets for mutating wordlists
+    wget https://raw.githubusercontent.com/stealthsploit/OneRuleToRuleThemStill/refs/heads/main/OneRuleToRuleThemStill.rule -O /root/opt/rulesets/OneRuleToRuleThemStill.rule && \
+
+    # pypycatzs - Mimikatz implementation in pure Python. 
+    # Usefull for extracting secrets from memory dumps 
+    pip3 install pypykatz
 
 #--------------------------------------------------------------------------------------------------
 # Exploits 
@@ -418,7 +423,7 @@ RUN apt update && \
 #--------------------------------------------------------------------------------------------------
 # Windows offensive
 
-     # impacket - network libraries and offensive toolings
+    # impacket - network libraries and offensive toolings
  RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket && \
      cd /root/opt/impacket/ && pip install . && \
 
@@ -464,7 +469,6 @@ RUN apt update && \
 
     # python based ftp server for file transfer
     pip3 install pyftpdlib
-
 
 #--------------------------------------------------------------------------------------------------
 #SMTP
