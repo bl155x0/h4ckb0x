@@ -395,6 +395,7 @@ RUN mkdir /var/www && \
    wget -P /var/www https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1 && \
    wget -P /var/www https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-AESEncryption.ps1 && \
    wget -P /var/www https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-PowerShellTcp.ps1 && \
+   wget -P /var/www https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.6/LaZagne.exe && \
 
    # also install an upload server to receive files via http
    pip3 install uploadserver && \
