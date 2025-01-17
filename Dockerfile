@@ -282,6 +282,12 @@ RUN apt update && \
     # rulesets for mutating wordlists
     wget https://raw.githubusercontent.com/stealthsploit/OneRuleToRuleThemStill/refs/heads/main/OneRuleToRuleThemStill.rule -O /root/opt/rulesets/OneRuleToRuleThemStill.rule && \
 
+    # username-anarchy - tool for creating username lists
+    cd /tmp/ && wget https://github.com/urbanadventurer/username-anarchy/archive/refs/tags/v0.6.zip && \
+    unzip v0.6.zip -d /root/opt && \
+    ln -s /root/opt/username-anarchy-0.6/username-anarchy /root/opt/bin/username-anarchy && \
+    rm v0.6.zip && cd - && \
+
     # pypycatzs - Mimikatz implementation in pure Python. 
     # Usefull for extracting secrets from memory dumps 
     pip3 install pypykatz
