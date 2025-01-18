@@ -399,6 +399,16 @@ RUN mkdir /var/www && \
    wget -P /var/www https://raw.githubusercontent.com/AlessandroZ/LaZagne/refs/heads/master/Linux/laZagne.py && \
    wget -P /var/www https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.py && \
    wget -P /var/www https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.sh && \
+   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.ps1 && \
+   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBExec.ps1 && \
+   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBEnum.ps1 && \
+   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBClient.ps1 && \
+   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-WMIExec.ps1 && \
+   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psd1 && \
+   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psm1 && \
+
+   # Combine all poweshell stuff for convenience 
+   zip -r /var/www/powershell.zip /var/www -i "*.ps1" "*.psd1" "*.psm1" && \
 
    # also install an upload server to receive files via http
    pip3 install uploadserver && \
