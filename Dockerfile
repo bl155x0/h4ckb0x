@@ -416,6 +416,8 @@ RUN mkdir /var/www && \
   # A WebDAV server for alternative file transfer via http
    pip3 install wsgidav cheroot
 
+# Add additional stuff
+COPY var/www/Rubeus.exe /var/www/Rubeus.exe
 #--------------------------------------------------------------------------------------------------
 # Database - SQL 
 RUN apt update && \ 
@@ -444,8 +446,8 @@ RUN apt update && \
 # Windows offensive
 
     # impacket - network libraries and offensive toolings
- RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket && \
-     cd /root/opt/impacket/ && pip install . && \
+RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket && \
+    cd /root/opt/impacket/ && pip install . && \
 
     # Responder - Poisoner - https://github.com/lgandx/Responder
     git clone --depth 1 https://github.com/lgandx/Responder.git /root/opt/responder && \
@@ -469,6 +471,13 @@ RUN apt update && \
     pipx ensurepath && \
     pipx install git+https://github.com/Pennyw0rth/NetExec
 
+#--------------------------------------------------------------------------------------------------
+# Kerberos
+  
+    #keytabextract is a tool for extracting usefull information from keyberos keytab files on linux
+RUN wget https://raw.githubusercontent.com/sosdave/KeyTabExtract/refs/heads/master/keytabextract.py -P /root/opt/bin/ && \
+    chmod u+x /root/opt/bin/keytabextract.py
+  
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
 
