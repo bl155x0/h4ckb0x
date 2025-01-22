@@ -399,6 +399,7 @@ RUN mkdir /var/www && \
    wget -P /var/www https://raw.githubusercontent.com/AlessandroZ/LaZagne/refs/heads/master/Linux/laZagne.py && \
    wget -P /var/www https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.py && \
    wget -P /var/www https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.sh && \
+   wget -P /var/www https://raw.githubusercontent.com/CiscoCXSecurity/linikatz/master/linikatz.sh && \
    wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.ps1 && \
    wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBExec.ps1 && \
    wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBEnum.ps1 && \
@@ -474,9 +475,13 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
 #--------------------------------------------------------------------------------------------------
 # Kerberos
   
-    #keytabextract is a tool for extracting usefull information from keyberos keytab files on linux
+    # keytabextract is a tool for extracting usefull information from keyberos keytab files on linux
 RUN wget https://raw.githubusercontent.com/sosdave/KeyTabExtract/refs/heads/master/keytabextract.py -P /root/opt/bin/ && \
-    chmod u+x /root/opt/bin/keytabextract.py
+    chmod u+x /root/opt/bin/keytabextract.py && \
+
+    # Kerberos Authentication Package (klist and support for other tooling)
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt install -y krb5-user
   
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
@@ -532,6 +537,17 @@ RUN apt update && \
 
     # ipmitool - tool to interact with IPMI devices 
     apt install -y ipmitool
+
+#--------------------------------------------------------------------------------------------------
+# Network tooling
+RUN apt update && \
+    # proxychaings - socks proxy tooling
+    apt install -y proxychains4 && \
+    echo "strict_chain\nproxy_dns\nremote_dns_subnet 224\ntcp_read_time_out 15000\ntcp_connect_time_out 8000\n[ProxyList]\nsocks5  127.0.0.1 1080" > /etc/proxychains4.conf && \ 
+
+    # chissel 
+    wget -P /tmp/ https://github.com/jpillora/chisel/releases/download/v1.10.1/chisel_1.10.1_linux_amd64.deb && \
+    dpkg -i /tmp/chisel_1.10.1_linux_amd64.deb
 
 #--------------------------------------------------------------------------------------------------
 # compression tools
