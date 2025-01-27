@@ -457,6 +457,7 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
     git clone --depth 1 https://github.com/lgandx/Responder.git /root/opt/responder && \
     cd /root/opt/responder && pip3 install -r requirements.txt && \
     cd - && \
+    ln -s /root/opt/responder/Responder.py /root/opt/bin/responder && \
 
     # RDP
     cpanm Encoding::BER && \
