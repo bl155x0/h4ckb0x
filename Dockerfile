@@ -426,6 +426,9 @@ RUN apt update && \
     #mysql client
     apt install mysql-client -y && \
 
+    # sqsh for MS SQL and Sybase 
+    apt install sqsh -y && \
+
     # oracle - sql plus
     apt install libaio1 -y && \
     wget -P /tmp/ https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-basic-linux.x64-21.4.0.0.0dbru.zip && \
