@@ -97,6 +97,9 @@ RUN wget -P /tmp https://github.com/owasp-amass/amass/releases/download/v4.2.0/a
     git clone --depth 1 https://github.com/huntergregal/Sublist3r.git /root/opt/sublist3r && \
     pip install -r /root/opt/sublist3r/requirements.txt && \
 
+    # subbrute
+    git clone --depth 1 https://github.com/TheRook/subbrute.git /root/opt/subbrute && \
+
     # findomain - enumeration tool
     curl -LO https://github.com/findomain/findomain/releases/latest/download/findomain-linux-i386.zip && \
     unzip findomain-linux-i386.zip && \
