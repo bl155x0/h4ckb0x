@@ -109,7 +109,10 @@ RUN wget -P /tmp https://github.com/owasp-amass/amass/releases/download/v4.2.0/a
     apt install -y cpanminus && \
     cpanm String::Random Net::IP Net::DNS Net::Netmask XML::Writer && \
     mv /tmp/dnsenum/dnsenum.pl /root/opt/bin/dnsenum && chmod u+x /root/opt/bin/dnsenum && \
-    rm -rf /tmp/dnsenum
+    rm -rf /tmp/dnsenum && \
+
+    # fierce DNS recon tool
+    pip install fierce 
 
 #--------------------------------------------------------------------------------------------------
 # URL/File Enumeration
