@@ -10,7 +10,7 @@ LABEL Description="h4ckb0x: A simple hacking environment as docker image."
 # basic system tools we need
 RUN apt update && apt upgrade -y && \
     export DEBIAN_FRONTEND=noninteractive && \
-    apt install iputils-ping unzip vim netcat ncat socat curl wget git net-tools whois -y && \ 
+    apt install iputils-ping unzip vim netcat ncat socat curl wget git net-tools whois swaks telnet -y && \ 
     apt install jq -y && \
     apt install dnsutils -y && \
     apt install libgbm1 -y && \
@@ -296,7 +296,11 @@ RUN apt update && \
 
     # pypycatzs - Mimikatz implementation in pure Python. 
     # Usefull for extracting secrets from memory dumps 
-    pip3 install pypykatz
+    pip3 install pypykatz && \
+
+    # o365spray
+    git clone --depth 1 https://github.com/0xZDH/o365spray.git /root/opt/o365spray && \
+    chmod u+x /root/opt/o365spray/o365spray.py
 
 #--------------------------------------------------------------------------------------------------
 # Exploits 
