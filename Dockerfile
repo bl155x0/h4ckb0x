@@ -564,9 +564,11 @@ RUN apt update && \
     apt install -y proxychains4 && \
     echo "strict_chain\nproxy_dns\nremote_dns_subnet 224\ntcp_read_time_out 15000\ntcp_connect_time_out 8000\n[ProxyList]\nsocks5  127.0.0.1 1080" > /etc/proxychains4.conf && \ 
 
-    # chissel 
+    # chisel 
     wget -P /tmp/ https://github.com/jpillora/chisel/releases/download/v1.10.1/chisel_1.10.1_linux_amd64.deb && \
     dpkg -i /tmp/chisel_1.10.1_linux_amd64.deb && \
+    # also clone it so that we can compile clients for various target platforms manually  
+    git clone --depth 1 https://github.com/jpillora/chisel.git /root/opt/chisel && \
 
     # rpivot
     git clone --depth 1 https://github.com/klsecservices/rpivot.git /root/opt/rpivot && \
