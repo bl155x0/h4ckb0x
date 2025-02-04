@@ -47,6 +47,9 @@ RUN apt update && \
     # Python
     apt install -y python3 python3-pip && pip3 install requests && \
 
+    # Python2
+    apt install -y python2.7 && \
+
     # Go
     wget -P /tmp https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \ 
     tar -C /usr/local -xzf /tmp/go1.23.1.linux-amd64.tar.gz   && \
@@ -56,7 +59,8 @@ RUN apt update && \
     apt install openjdk-17-jdk openjdk-17-jre -y && \
 
     # Ruby
-    apt install ruby-dev -y
+    apt install ruby-dev -y && \
+    gem install bundler
 
 #--------------------------------------------------------------------------------------------------
 #Wordlists
@@ -417,6 +421,7 @@ RUN mkdir /var/www && \
    wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-WMIExec.ps1 && \
    wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psd1 && \
    wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psm1 && \
+   wget -P /var/www https://raw.githubusercontent.com/lukebaggett/dnscat2-powershell/refs/heads/master/dnscat2.ps1 && \
 
    # Combine all poweshell stuff for convenience 
    zip -r /var/www/powershell.zip /var/www -i "*.ps1" "*.psd1" "*.psm1" && \
@@ -561,7 +566,16 @@ RUN apt update && \
 
     # chissel 
     wget -P /tmp/ https://github.com/jpillora/chisel/releases/download/v1.10.1/chisel_1.10.1_linux_amd64.deb && \
-    dpkg -i /tmp/chisel_1.10.1_linux_amd64.deb
+    dpkg -i /tmp/chisel_1.10.1_linux_amd64.deb && \
+
+    # rpivot
+    git clone --depth 1 https://github.com/klsecservices/rpivot.git /root/opt/rpivot && \
+
+    # dnscat2 - tunneling and traffic hiding via DNS
+    git clone --depth 1 https://github.com/iagox86/dnscat2.git /root/opt/dnscat2 && \
+    cd /root/opt/dnscat2/server && bundle install && \ 
+    cd /root/opt/dnscat2/client && make && \
+    cd -
 
 #--------------------------------------------------------------------------------------------------
 # compression tools
