@@ -573,10 +573,11 @@ RUN apt update && \
     # rpivot
     git clone --depth 1 https://github.com/klsecservices/rpivot.git /root/opt/rpivot && \
 
-    # dnscat2 - tunneling and traffic hiding via DNS
+    # dnscat2 - tunneling and traffic hiding via DNS - build the dnsclient staticly linked
     git clone --depth 1 https://github.com/iagox86/dnscat2.git /root/opt/dnscat2 && \
     cd /root/opt/dnscat2/server && bundle install && \ 
-    cd /root/opt/dnscat2/client && make && \
+    cd /root/opt/dnscat2/client && sed -i 's/^LDFLAGS=\(.*\)/LDFLAGS=\1 -static/' Makefile && make && \
+    mkdir -p /var/www && cp /root/opt/dnscat2/client/dnscat  /var/www && \
     cd - && \
 
     # ptunnel-ng for ICMP tunneling - bulding from source as static linked binary!
