@@ -432,7 +432,7 @@ RUN mkdir /var/www && \
   # A WebDAV server for alternative file transfer via http
    pip3 install wsgidav cheroot
 
-# Add additional stuff
+# Add additional loca stuff 
 COPY var/www/Rubeus.exe /var/www/Rubeus.exe
 #--------------------------------------------------------------------------------------------------
 # Database - SQL 
@@ -577,7 +577,16 @@ RUN apt update && \
     git clone --depth 1 https://github.com/iagox86/dnscat2.git /root/opt/dnscat2 && \
     cd /root/opt/dnscat2/server && bundle install && \ 
     cd /root/opt/dnscat2/client && make && \
-    cd -
+    cd - && \
+
+    # ptunnel-ng for ICMP tunneling - bulding from source as static linked binary!
+    git clone --depth 1 https://github.com/utoni/ptunnel-ng.git /root/opt/ptunnel-ng && \
+    cd /root/opt/ptunnel-ng && \
+    sed -i '$s/.*/LDFLAGS=-static "${NEW_WD}\/configure" --enable-static $@ \&\& make clean \&\& make -j${BUILDJOBS:-4} all/' autogen.sh && \
+    ./autogen.sh && \
+    cp /root/opt/ptunnel-ng/src/ptunnel-ng /root/opt/bin && \
+    mkdir -p /var/www && cp /root/opt/bin/ptunnel-ng /var/www && \
+    cd - 
 
 #--------------------------------------------------------------------------------------------------
 # compression tools
