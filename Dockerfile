@@ -422,6 +422,9 @@ RUN mkdir /var/www && \
    wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psd1 && \
    wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psm1 && \
    wget -P /var/www https://raw.githubusercontent.com/lukebaggett/dnscat2-powershell/refs/heads/master/dnscat2.ps1 && \
+   wget -P /var/www https://www.proxifier.com/download/ProxifierPE.zip && \
+   wget -P /var/www/socksOverRdp/x86 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x86.zip && unzip /var/www/socksOverRdp/x86/SocksOverRDP-x86.zip -d /var/www/socksOverRdp/x86 && \
+   wget -P /var/www/socksOverRdp/x64 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x64.zip && unzip /var/www/socksOverRdp/x64/SocksOverRDP-x64.zip -d /var/www/socksOverRdp/x64 && \
 
    # Combine all poweshell stuff for convenience 
    zip -r /var/www/powershell.zip /var/www -i "*.ps1" "*.psd1" "*.psm1" && \
