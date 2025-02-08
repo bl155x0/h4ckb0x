@@ -434,10 +434,10 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/socksOverRdp/x64 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x64.zip && unzip /var/www/windows/socksOverRdp/x64/SocksOverRDP-x64.zip -d /var/www/windows/socksOverRdp/x64 && \
 
   # socat windows
-  mkdir -p /tmp/socat/ && cd /tmp/socat && \
-  wget https://github.com/valorisa/socat-1.8.0.1_for_Windows/raw/refs/heads/main/socat-1.8.0.1.7z -O socat.7z && \
-  7zz e socat.7z && \
-  mv socat.exe /var/www/windows && \
+  git clone --depth 1 https://github.com/tech128/socat-1.7.3.0-windows.git /tmp/socat && \
+  cd /tmp/ && zip -r socat.zip socat && rm -rf socat && \
+  mv socat.zip /var/www/windows && \
+  cd / && \
 
   # Combine all poweshell stuff for convenience 
   zip -r /var/www/windows/powershell.zip /var/www/windows -i "*.ps1" "*.psd1" "*.psm1" && \
@@ -612,7 +612,7 @@ RUN apt update && \
     cd - 
 
 #--------------------------------------------------------------------------------------------------
-# compression tools
+# additional compression tools
 RUN cd /tmp && \
   
   # rarlinux
