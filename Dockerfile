@@ -12,6 +12,7 @@ RUN apt update && apt upgrade -y && \
     export DEBIAN_FRONTEND=noninteractive && \
     apt install iputils-ping unzip vim netcat ncat socat curl wget git net-tools whois swaks telnet -y && \ 
     apt install jq -y && \
+    apt install 7zip -y && \
     apt install dnsutils -y && \
     apt install libgbm1 -y && \
     apt install rsync -y && \
@@ -25,6 +26,9 @@ RUN apt update && apt upgrade -y && \
 #Home directory
 ADD data /root
 WORKDIR /root
+
+#prepare useful directories
+RUN mkdir /root/.ssh
 
 #bashrc
 RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/.bashrc &&  \
@@ -397,46 +401,55 @@ RUN cd /root/opt && git clone --depth 1 https://github.com/defparam/smuggler.git
 
 #--------------------------------------------------------------------------------------------------
 # /var/www - stuff to serve 
-RUN mkdir /var/www && \
-   wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh && \
-   wget -P /var/www https://raw.githubusercontent.com/peass-ng/PEASS-ng/master/winPEAS/winPEASps1/winPEAS.ps1 && \
-   wget -P /var/www https://github.com/peass-ng/PEASS-ng/releases/latest/download/winPEASany_ofs.exe && \
-   wget -P /var/www https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 && \
-   wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc.exe && \
-   wget -P /var/www https://github.com/int0x33/nc.exe/raw/master/nc64.exe && \
-   wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat && \
-   wget -P /var/www https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/ncat && \
-   wget -P /var/www https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1 && \
-   wget -P /var/www https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-AESEncryption.ps1 && \
-   wget -P /var/www https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-PowerShellTcp.ps1 && \
-   wget -P /var/www https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.6/LaZagne.exe && \
-   wget -P /var/www https://raw.githubusercontent.com/AlessandroZ/LaZagne/refs/heads/master/Linux/laZagne.py && \
-   wget -P /var/www https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.py && \
-   wget -P /var/www https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.sh && \
-   wget -P /var/www https://raw.githubusercontent.com/CiscoCXSecurity/linikatz/master/linikatz.sh && \
-   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.ps1 && \
-   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBExec.ps1 && \
-   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBEnum.ps1 && \
-   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBClient.ps1 && \
-   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-WMIExec.ps1 && \
-   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psd1 && \
-   wget -P /var/www https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psm1 && \
-   wget -P /var/www https://raw.githubusercontent.com/lukebaggett/dnscat2-powershell/refs/heads/master/dnscat2.ps1 && \
-   wget -P /var/www https://www.proxifier.com/download/ProxifierPE.zip && \
-   wget -P /var/www/socksOverRdp/x86 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x86.zip && unzip /var/www/socksOverRdp/x86/SocksOverRDP-x86.zip -d /var/www/socksOverRdp/x86 && \
-   wget -P /var/www/socksOverRdp/x64 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x64.zip && unzip /var/www/socksOverRdp/x64/SocksOverRDP-x64.zip -d /var/www/socksOverRdp/x64 && \
+RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
+   # linux
+   wget -P /var/www/linux/ https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh && \
+   wget -P /var/www/linux/ https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 && \
+   wget -P /var/www/linux/ https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat && \
+   wget -P /var/www/linux/ https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/ncat && \
+   wget -P /var/www/linux/ https://raw.githubusercontent.com/AlessandroZ/LaZagne/refs/heads/master/Linux/laZagne.py && \
+   wget -P /var/www/linux/ https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.py && \
+   wget -P /var/www/linux/ https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.sh && \
+   wget -P /var/www/linux/ https://raw.githubusercontent.com/CiscoCXSecurity/linikatz/master/linikatz.sh && \
 
-   # Combine all poweshell stuff for convenience 
-   zip -r /var/www/powershell.zip /var/www -i "*.ps1" "*.psd1" "*.psm1" && \
+   # windows
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/peass-ng/PEASS-ng/master/winPEAS/winPEASps1/winPEAS.ps1 && \
+   wget -P /var/www/windows/ https://github.com/peass-ng/PEASS-ng/releases/latest/download/winPEASany_ofs.exe && \
+   wget -P /var/www/windows/ https://github.com/int0x33/nc.exe/raw/master/nc.exe && \
+   wget -P /var/www/windows/ https://github.com/int0x33/nc.exe/raw/master/nc64.exe && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-AESEncryption.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-PowerShellTcp.ps1 && \
+   wget -P /var/www/windows/ https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.6/LaZagne.exe && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBExec.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBEnum.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBClient.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-WMIExec.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psd1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.psm1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/lukebaggett/dnscat2-powershell/refs/heads/master/dnscat2.ps1 && \
+   wget -P /var/www/windows/ https://www.proxifier.com/download/ProxifierPE.zip && \
+   wget -P /var/www/windows/socksOverRdp/x86 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x86.zip && unzip /var/www/windows/socksOverRdp/x86/SocksOverRDP-x86.zip -d /var/www/windows/socksOverRdp/x86 && \
+   wget -P /var/www/windows/socksOverRdp/x64 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x64.zip && unzip /var/www/windows/socksOverRdp/x64/SocksOverRDP-x64.zip -d /var/www/windows/socksOverRdp/x64 && \
 
-   # also install an upload server to receive files via http
-   pip3 install uploadserver && \
+  # socat windows
+  mkdir -p /tmp/socat/ && cd /tmp/socat && \
+  wget https://github.com/valorisa/socat-1.8.0.1_for_Windows/raw/refs/heads/main/socat-1.8.0.1.7z -O socat.7z && \
+  7zz e socat.7z && \
+  mv socat.exe /var/www/windows && \
+
+  # Combine all poweshell stuff for convenience 
+  zip -r /var/www/windows/powershell.zip /var/www/windows -i "*.ps1" "*.psd1" "*.psm1" && \
+
+  # also install an upload server to receive files via http
+  pip3 install uploadserver && \
 
   # A WebDAV server for alternative file transfer via http
-   pip3 install wsgidav cheroot
+  pip3 install wsgidav cheroot
 
-# Add additional loca stuff 
-COPY var/www/Rubeus.exe /var/www/Rubeus.exe
+# Add additional local stuff 
+COPY var/www/windows/Rubeus.exe /var/www/windows/Rubeus.exe
 #--------------------------------------------------------------------------------------------------
 # Database - SQL 
 RUN apt update && \ 
@@ -567,11 +580,17 @@ RUN apt update && \
     apt install -y proxychains4 && \
     echo "strict_chain\nproxy_dns\nremote_dns_subnet 224\ntcp_read_time_out 15000\ntcp_connect_time_out 8000\n[ProxyList]\nsocks5  127.0.0.1 1080" > /etc/proxychains4.conf && \ 
 
-    # chisel 
+    # chisel  - build it for: linux, linux staticly linked, windows x86, windows x64 
     wget -P /tmp/ https://github.com/jpillora/chisel/releases/download/v1.10.1/chisel_1.10.1_linux_amd64.deb && \
     dpkg -i /tmp/chisel_1.10.1_linux_amd64.deb && \
     # also clone it so that we can compile clients for various target platforms manually  
     git clone --depth 1 https://github.com/jpillora/chisel.git /root/opt/chisel && \
+    cd /root/opt/chisel && \
+    /usr/local/go/bin/go build && cp /root/opt/chisel/chisel /var/www/linux/ && \
+    CGO_ENABLED=0  /usr/local/go/bin/go build -ldflags "-extldflags '-static'" -o chisel-static && cp /root/opt/chisel/chisel-static /var/www/linux && \
+    GOOARCH="amd64" GOOS="windows" /usr/local/go/bin/go  build -o chisel-x64.exe && cp /root/opt/chisel/chisel-x64.exe /var/www/windows/ && \
+    GOOARCH="386" GOOS="windows" /usr/local/go/bin/go build -o chisel-x86.exe && cp /root/opt/chisel/chisel-x86.exe /var/www/windows/ && \
+    cd - && \
 
     # rpivot
     git clone --depth 1 https://github.com/klsecservices/rpivot.git /root/opt/rpivot && \
@@ -580,7 +599,7 @@ RUN apt update && \
     git clone --depth 1 https://github.com/iagox86/dnscat2.git /root/opt/dnscat2 && \
     cd /root/opt/dnscat2/server && bundle install && \ 
     cd /root/opt/dnscat2/client && sed -i 's/^LDFLAGS=\(.*\)/LDFLAGS=\1 -static/' Makefile && make && \
-    mkdir -p /var/www && cp /root/opt/dnscat2/client/dnscat  /var/www && \
+    mkdir -p /var/www/linux/ && cp /root/opt/dnscat2/client/dnscat  /var/www/linux && \
     cd - && \
 
     # ptunnel-ng for ICMP tunneling - bulding from source as static linked binary!
@@ -589,7 +608,7 @@ RUN apt update && \
     sed -i '$s/.*/LDFLAGS=-static "${NEW_WD}\/configure" --enable-static $@ \&\& make clean \&\& make -j${BUILDJOBS:-4} all/' autogen.sh && \
     ./autogen.sh && \
     cp /root/opt/ptunnel-ng/src/ptunnel-ng /root/opt/bin && \
-    mkdir -p /var/www && cp /root/opt/bin/ptunnel-ng /var/www && \
+    mkdir -p /var/www/linux && cp /root/opt/bin/ptunnel-ng /var/www/linux && \
     cd - 
 
 #--------------------------------------------------------------------------------------------------
