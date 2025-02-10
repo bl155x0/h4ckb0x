@@ -10,7 +10,7 @@ LABEL Description="h4ckb0x: A simple hacking environment as docker image."
 # basic system tools we need
 RUN apt update && apt upgrade -y && \
     export DEBIAN_FRONTEND=noninteractive && \
-    apt install iputils-ping unzip vim netcat ncat socat curl wget git net-tools whois swaks telnet -y && \ 
+    apt install iputils-ping fping unzip vim netcat ncat socat curl wget git net-tools whois swaks telnet -y && \ 
     apt install jq -y && \
     apt install 7zip -y && \
     apt install dnsutils -y && \
@@ -34,7 +34,6 @@ RUN mkdir /root/.ssh
 RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/.bashrc &&  \
     echo "export RECONAUT_TEMPLATES=/root/reconaut-templates/" >> /root/.bashrc &&  \
     echo "PS1='\[\033[0;31m\]\u \e[31m$(parse_if_root)\[\033[0;37m\]at \[\033[0;31m\]h4ckb0x \[\033[0;37m\]in \[\033[0;31m\]\w \[\033[1;35m\]$(parse_git_branch)\n\[\033[1;35m\] \[\033[0m\]'" >> /root/.bashrc && \
-    echo "PATH=\$PATH:/usr/local/go/bin" >> /root/.bashrc && \
     echo "PATH=\$PATH:/root/.local/bin" >> /root/.bashrc && \
     echo "cat /root/etc/motd" >> /root/.bashrc && \
     echo "alias p='ping -c 1'" >> /root/.bashrc && \ 
@@ -58,6 +57,7 @@ RUN apt update && \
     wget -P /tmp https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \ 
     tar -C /usr/local -xzf /tmp/go1.23.1.linux-amd64.tar.gz   && \
     rm /tmp/go1.23.1.linux-amd64.tar.gz && \
+    ln -s /usr/local/go/bin/go /usr/bin/go && \
 
     # Java
     apt install openjdk-17-jdk openjdk-17-jre -y && \
@@ -79,6 +79,9 @@ RUN apt update && \
 
     # n0kovo subdomain
     git clone --depth 1  https://github.com/n0kovo/n0kovo_subdomains /root/opt/wordlists/n0kovo && \
+
+    # insidetrust's user-name SecLists
+    git clone --depth 1 https://github.com/insidetrust/statistically-likely-usernames.git /root/opt/wordlists/statistically-likely-usernames && \
 
     # creds: Default password database / tool
     pip3 install defaultcreds-cheat-sheet && \
@@ -308,7 +311,12 @@ RUN apt update && \
 
     # o365spray
     git clone --depth 1 https://github.com/0xZDH/o365spray.git /root/opt/o365spray && \
-    chmod u+x /root/opt/o365spray/o365spray.py
+    chmod u+x /root/opt/o365spray/o365spray.py && \
+
+    # kerbrute - Kerberos based bruteforce and enumeration tool
+    git clone --depth 1 https://github.com/ropnop/kerbrute.git /tmp/kerbrute && \
+    cd /tmp/kerbrute && make linux && \
+    mv /tmp/kerbrute/dist/kerbrute_linux_amd64 /root/opt/bin/kerbrute
 
 #--------------------------------------------------------------------------------------------------
 # Exploits 
