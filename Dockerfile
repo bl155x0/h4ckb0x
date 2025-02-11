@@ -42,7 +42,8 @@ RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/
     echo "alias ffufu='ffuf -H \"User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0\"'" >> /root/.bashrc  && \
     echo "alias smuggler='/root/opt/smuggler/smuggler.py'" >> /root/.bashrc && \
     echo "alias reconspider='python3 /root/opt/bin/ReconSpider.py'" >> /root/.bashrc && \
-    echo "alias msfconsole='msfconsole -x \"db_connect msfuser:\$POSTGRES_MSFDB_PASS@127.0.0.1:5432/msfdb; db_status\"'" >> /root/.bashrc
+    echo "alias msfconsole='msfconsole -x \"db_connect msfuser:\$POSTGRES_MSFDB_PASS@127.0.0.1:5432/msfdb; db_status\"'" >> /root/.bashrc && \
+    echo "alias nocolor='sed -E \"s/\x1B\[[0-9;]*m//g\"'" >> /root/.bashrc
 
 #--------------------------------------------------------------------------------------------------
 ## programming languages
@@ -497,6 +498,11 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
     cd /root/opt/responder && pip3 install -r requirements.txt && \
     cd - && \
     ln -s /root/opt/responder/Responder.py /root/opt/bin/responder && \
+
+    # Inveight 
+    mkdir -p /tmp/inveight && wget https://github.com/Kevin-Robertson/Inveigh/releases/download/v2.0.11/Inveigh-net4.6.2-v2.0.11.zip -P /tmp/inveight && \
+    cd /tmp/inveight && unzip Inveigh-net4.6.2-v2.0.11.zip && \
+    mkdir -p /var/www/windows && mv /tmp/inveight/Inveigh.exe /var/www/windows/Inveight-net4.6.2.exe && \
 
     # RDP
     cpanm Encoding::BER && \
