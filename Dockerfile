@@ -21,6 +21,7 @@ RUN apt update && apt upgrade -y && \
     apt install mlocate -y && \
     apt install sudo -y && \
     apt install alien -y && \
+    apt install ldap-utils -y && \
     apt install -y openssh-server && mkdir -p /run/sshd && chmod 0755 /run/sshd
 
 #Home directory
@@ -430,6 +431,7 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-AESEncryption.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-PowerShellTcp.ps1 && \
    wget -P /var/www/windows/ https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.6/LaZagne.exe && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Recon/PowerView.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBExec.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBEnum.ps1 && \
