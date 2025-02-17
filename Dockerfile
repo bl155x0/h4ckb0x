@@ -445,6 +445,8 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://www.proxifier.com/download/ProxifierPE.zip && \
    wget -P /var/www/windows/socksOverRdp/x86 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x86.zip && unzip /var/www/windows/socksOverRdp/x86/SocksOverRDP-x86.zip -d /var/www/windows/socksOverRdp/x86 && \
    wget -P /var/www/windows/socksOverRdp/x64 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x64.zip && unzip /var/www/windows/socksOverRdp/x64/SocksOverRDP-x64.zip -d /var/www/windows/socksOverRdp/x64 && \
+   wget -P /var/www/windows/ https://github.com/SnaffCon/Snaffler/releases/download/1.0.184/Snaffler.exe && \
+   wget -P /var/www/windows/ https://github.com/SpecterOps/BloodHound-Legacy/raw/refs/heads/master/Collectors/SharpHound.exe && \
 
   # socat windows
   git clone --depth 1 https://github.com/tech128/socat-1.7.3.0-windows.git /tmp/socat && \
@@ -523,7 +525,10 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
     export DEBIAN_FRONTEND=noninteractive && \
     apt install -y pipx git && \
     pipx ensurepath && \
-    pipx install git+https://github.com/Pennyw0rth/NetExec
+    pipx install git+https://github.com/Pennyw0rth/NetExec && \
+
+    # bloodhound
+    pip install bloodhound-ce
 
 #--------------------------------------------------------------------------------------------------
 # Kerberos
