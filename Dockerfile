@@ -558,6 +558,14 @@ RUN apt update && \
     pip3 install pyftpdlib
 
 #--------------------------------------------------------------------------------------------------
+# LDAP
+RUN apt update && \
+
+  apt install -y python3-ldap && \
+  git clone --depth 1 https://github.com/ropnop/windapsearch.git  /root/opt/windapsearch && \
+  ln -s /root/opt/windapsearch/windapsearch.py /root/opt/bin/windapsearch 
+
+#--------------------------------------------------------------------------------------------------
 #SMTP
     #Perl based smtp-user-enum
 RUN wget https://raw.githubusercontent.com/pentestmonkey/smtp-user-enum/refs/heads/master/smtp-user-enum.pl -P /root/opt/bin/ && \
