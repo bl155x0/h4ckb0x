@@ -447,6 +447,8 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/socksOverRdp/x64 https://github.com/nccgroup/SocksOverRDP/releases/download/v1.0/SocksOverRDP-x64.zip && unzip /var/www/windows/socksOverRdp/x64/SocksOverRDP-x64.zip -d /var/www/windows/socksOverRdp/x64 && \
    wget -P /var/www/windows/ https://github.com/SnaffCon/Snaffler/releases/download/1.0.184/Snaffler.exe && \
    wget -P /var/www/windows/ https://github.com/SpecterOps/BloodHound-Legacy/raw/refs/heads/master/Collectors/SharpHound.exe && \
+   wget -P /var/www/windows/ https://gitlab.com/kalilinux/packages/mimikatz/-/raw/d72fc2cca1df23f60f81bc141095f65a131fd099/Win32/mimikatz.exe -O /var/www/windows/mimikatz.exe && \
+   wget -P /var/www/windows/ https://gitlab.com/kalilinux/packages/mimikatz/-/raw/d72fc2cca1df23f60f81bc141095f65a131fd099/x64/mimikatz.exe -O /var/www/windows/mimikatz64.exe && \
 
   # socat windows
   git clone --depth 1 https://github.com/tech128/socat-1.7.3.0-windows.git /tmp/socat && \
