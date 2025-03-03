@@ -541,7 +541,12 @@ RUN wget https://raw.githubusercontent.com/sosdave/KeyTabExtract/refs/heads/mast
 
     # Kerberos Authentication Package (klist and support for other tooling)
     export DEBIAN_FRONTEND=noninteractive && \
-    apt install -y krb5-user
+    apt install -y krb5-user && \
+
+    # targetedKerberoast - a tool for adding fake SPN to an use account
+    cd /tmp && git clone https://github.com/ShutdownRepo/targetedKerberoast.git && \
+    cd /tmp/targetedKerberoast && pip install -r requirements.txt && \
+    mv targetedKerberoast.py ~/opt/bin && cd - && rm -rf /tmp/targetedKerberoast
   
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
