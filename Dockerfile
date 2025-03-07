@@ -333,7 +333,13 @@ RUN apt update && \
     curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall && \
     chmod 755 /tmp/msfinstall && \
     /tmp/msfinstall && \
-    rm /tmp/msfinstall
+    rm /tmp/msfinstall && \
+
+    # general folder for exploits 
+    mkdir -p /root/opt/exploits && \
+    
+    # noPac - Windows DC exploitation 
+    git clone --depth 1 https://github.com/Ridter/noPac /root/opt/exploits/noPac
 
 #--------------------------------------------------------------------------------------------------
 # Web Shells
