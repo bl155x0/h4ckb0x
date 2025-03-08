@@ -340,6 +340,8 @@ RUN apt update && \
     
     # noPac - Windows DC exploitation 
     git clone --depth 1 https://github.com/Ridter/noPac /root/opt/exploits/noPac
+    # PrintNightmare
+    git clone --depth 1 https://github.com/cube0x0/CVE-2021-1675.git /root/opt/exploits/printNightmare
 
 #--------------------------------------------------------------------------------------------------
 # Web Shells
