@@ -541,7 +541,10 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
     pipx install git+https://github.com/Pennyw0rth/NetExec && \
 
     # bloodhound
-    pip install bloodhound-ce
+    pip install bloodhound-ce && \
+
+    # Certipy - offensive tool for enumerating and attacking AD CS (Active Directory certificate Service)
+    pip3 install certipy-ad
 
 #--------------------------------------------------------------------------------------------------
 # Kerberos
