@@ -335,13 +335,15 @@ RUN apt update && \
     /tmp/msfinstall && \
     rm /tmp/msfinstall && \
 
-    # general folder for exploits 
+    # Exploits
     mkdir -p /root/opt/exploits && \
-    
     # noPac - Windows DC exploitation 
-    git clone --depth 1 https://github.com/Ridter/noPac /root/opt/exploits/noPac
+    git clone --depth 1 https://github.com/Ridter/noPac /root/opt/exploits/noPac && \
     # PrintNightmare
-    git clone --depth 1 https://github.com/cube0x0/CVE-2021-1675.git /root/opt/exploits/printNightmare
+    git clone --depth 1 https://github.com/cube0x0/CVE-2021-1675.git /root/opt/exploits/printNightmare && \
+    # Petit Potam
+    git clone --depth 1 https://github.com/topotam/PetitPotam.git /root/opt/exploits/petitPotam && \
+    mkdir -p /var/www/windows && cp /root/opt/exploits/petitPotam/PetitPotam.exe /var/www/windows 
 
 #--------------------------------------------------------------------------------------------------
 # Web Shells
@@ -555,7 +557,10 @@ RUN wget https://raw.githubusercontent.com/sosdave/KeyTabExtract/refs/heads/mast
     # targetedKerberoast - a tool for adding fake SPN to an use account
     cd /tmp && git clone https://github.com/ShutdownRepo/targetedKerberoast.git && \
     cd /tmp/targetedKerberoast && pip install -r requirements.txt && \
-    mv targetedKerberoast.py ~/opt/bin && cd - && rm -rf /tmp/targetedKerberoast
+    mv targetedKerberoast.py ~/opt/bin && cd - && rm -rf /tmp/targetedKerberoast && \
+
+    # PKINITtools, like gettgtpkinit, for getting a TGT by presenting a certificate
+    git clone --depth 1 https://github.com/dirkjanm/PKINITtools /root/opt/PKINITtools
   
 #--------------------------------------------------------------------------------------------------
 #smb/cifs stuff
