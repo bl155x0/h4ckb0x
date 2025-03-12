@@ -128,7 +128,12 @@ RUN wget -P /tmp https://github.com/owasp-amass/amass/releases/download/v4.2.0/a
     rm -rf /tmp/dnsenum && \
 
     # fierce DNS recon tool
-    pip install fierce 
+    pip install fierce && \
+
+    # adidnsdump- Windows AD DNS enumeration
+    git clone --depth 1 https://github.com/dirkjanm/adidnsdump.git /tmp/adidnsdump && \
+    cp /tmp/adidnsdump/adidnsdump/dnsdump.py /root/opt/bin/adidnsdump && \
+    chmod u+x /root/opt/bin/adidnsdump
 
 #--------------------------------------------------------------------------------------------------
 # URL/File Enumeration
@@ -442,6 +447,7 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-PowerShellTcp.ps1 && \
    wget -P /var/www/windows/ https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.6/LaZagne.exe && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Recon/PowerView.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Exfiltration/Get-GPPPassword.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBExec.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-SMBEnum.ps1 && \
@@ -693,6 +699,14 @@ RUN cd /tmp && \
   tar xvf upx-4.2.4-amd64_linux.tar.xz && \
   mv /tmp/upx-4.2.4-amd64_linux/upx /root/opt/bin/ && \
   rm -rf /tmp/upx-4.2.4-amd64_linux
+
+#--------------------------------------------------------------------------------------------------
+# crypto tools
+RUN cd && \
+  # gpp-decrypt.rb - a simple tool to encrypt Group Policy Preferences passwords using MS default AES key  
+  mkdir -p /root/opt/gpp-decrypt/ && cd /root/opt/gpp-decrypt && \
+  wget 'https://gitlab.com/kalilinux/packages/gpp-decrypt/-/raw/kali/master/gpp-decrypt.rb' && \
+  chmod u+x /root/opt/gpp-decrypt/gpp-decrypt.rb
 
 #--------------------------------------------------------------------------------------------------
 # EOF
