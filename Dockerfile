@@ -550,7 +550,10 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
     pip install bloodhound-ce && \
 
     # Certipy - offensive tool for enumerating and attacking AD CS (Active Directory certificate Service)
-    pip3 install certipy-ad
+    pip3 install certipy-ad && \
+
+    # pyGPOAbuse - A tool to abuse writable GPO
+    git clone --depth 1 https://github.com/Hackndo/pyGPOAbuse.git /root/opt/pyGPOAbuse 
 
 #--------------------------------------------------------------------------------------------------
 # Kerberos
