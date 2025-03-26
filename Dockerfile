@@ -526,6 +526,9 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
     cd - && \
     ln -s /root/opt/responder/Responder.py /root/opt/bin/responder && \
 
+    # make responder available as download if we need to transfer it to a linux jump host
+    cd /root/opt/&& tar cvzf responder.tgz responder && mv responder.tgz /var/www/linux && cd - && \
+
     # Inveight 
     mkdir -p /tmp/inveight && wget https://github.com/Kevin-Robertson/Inveigh/releases/download/v2.0.11/Inveigh-net4.6.2-v2.0.11.zip -P /tmp/inveight && \
     cd /tmp/inveight && unzip Inveigh-net4.6.2-v2.0.11.zip && \
