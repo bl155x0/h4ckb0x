@@ -325,9 +325,10 @@ RUN apt update && \
     cd /tmp/kerbrute && make linux && \
     mv /tmp/kerbrute/dist/kerbrute_linux_amd64 /root/opt/bin/kerbrute && \
     ## download windows binaries as well
-    mkdir -p /var/www/windows && \
-    wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_386.exe -o /var/www/windows/kerbrute_386.exe && \
-    wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe -o /var/www/windows/kerbrute_64.exe
+    mkdir -p /var/www/windows && cd /var/www/windows \
+    wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_386.exe && \
+    wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe  && \
+    cd -
 
 #--------------------------------------------------------------------------------------------------
 # Exploits 
