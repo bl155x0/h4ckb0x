@@ -323,7 +323,11 @@ RUN apt update && \
     # kerbrute - Kerberos based bruteforce and enumeration tool
     git clone --depth 1 https://github.com/ropnop/kerbrute.git /tmp/kerbrute && \
     cd /tmp/kerbrute && make linux && \
-    mv /tmp/kerbrute/dist/kerbrute_linux_amd64 /root/opt/bin/kerbrute
+    mv /tmp/kerbrute/dist/kerbrute_linux_amd64 /root/opt/bin/kerbrute && \
+    ## download windows binaries as well
+    mkdir -p /var/www/windows && \
+    wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_386.exe -o /var/www/windows/kerbrute_386.exe && \
+    wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_amd64.exe -o /var/www/windows/kerbrute_64.exe
 
 #--------------------------------------------------------------------------------------------------
 # Exploits 
