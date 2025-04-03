@@ -89,7 +89,10 @@ RUN apt update && \
     pip3 install defaultcreds-cheat-sheet && \
 
     # custom wordlists generator
-    apt install cewl -y
+    apt install cewl -y && \
+
+    # cupp - comon user password profiler
+    apt install cupp -y 
 
 #--------------------------------------------------------------------------------------------------
 # Host Enumeration
@@ -291,6 +294,9 @@ RUN apt update && \
     #hdydra requires debconf which comes with an interactive q&a installation by default. 
     #we don't want this so we set DEBIAN_FRONTEND to "noninteractive"
     DEBIAN_FRONTEND=noninteractive apt install -y hydra && \
+
+    # medusa
+    apt install medusa -y && \
 
     # hashcat hash cracker
     apt install hashcat -y && \
