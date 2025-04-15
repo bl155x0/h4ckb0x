@@ -10,7 +10,7 @@ LABEL Description="h4ckb0x: A simple hacking environment as docker image."
 # basic system tools we need
 RUN apt update && apt upgrade -y && \
     export DEBIAN_FRONTEND=noninteractive && \
-    apt install iputils-ping fping unzip vim netcat ncat socat curl wget git net-tools whois swaks telnet -y && \ 
+    apt install iputils-ping fping unzip vim tree netcat ncat socat curl wget git net-tools whois swaks telnet -y && \ 
     apt install jq -y && \
     apt install 7zip -y && \
     apt install dnsutils -y && \
