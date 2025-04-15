@@ -66,7 +66,11 @@ RUN apt update && \
 
     # Ruby
     apt install ruby-dev -y && \
-    gem install bundler
+    gem install bundler && \
+
+    # php 
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt install php -y 
 
 #--------------------------------------------------------------------------------------------------
 #Wordlists
@@ -226,6 +230,9 @@ RUN apt update && \
 
     # sqlamp SQLi scanner
     apt install sqlmap -y && \
+
+    # sql map ws support
+    pip install websocket-client && \
 
     # xssstrike XSS scanner
     wget -P /tmp "https://github.com/s0md3v/XSStrike/archive/refs/tags/3.1.5.tar.gz" && \
