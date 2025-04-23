@@ -377,7 +377,10 @@ Run mkdir -p /root/opt/web-shells/ && git clone --depth 1 https://github.com/jba
   rm -rf /tmp/Web-Shells && \
 
   # wwwolf-php-webshell
-  git clone --depth 1  https://github.com/WhiteWinterWolf/wwwolf-php-webshell /root/opt/web-shells/wwwolf-php-webshell
+  git clone --depth 1 https://github.com/WhiteWinterWolf/wwwolf-php-webshell /root/opt/web-shells/wwwolf-php-webshell && \
+
+  # phpbash
+  git clone --depth 1 https://github.com/Arrexel/phpbash.git /root/opt/web-shells/phpbash
 
 #--------------------------------------------------------------------------------------------------
 # Mobile
