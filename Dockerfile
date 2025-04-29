@@ -47,6 +47,14 @@ RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/
     echo "alias nocolor='sed -E \"s/\x1B\[[0-9;]*m//g\"'" >> /root/.bashrc
 
 #--------------------------------------------------------------------------------------------------
+## Other Shells
+RUN apt update && \
+
+  # PowerShell
+  wget -P /tmp https://github.com/PowerShell/PowerShell/releases/download/v7.4.7/powershell_7.4.7-1.deb_amd64.deb -O /tmp/ps.deb && \
+  dpkg -i /tmp/ps.deb
+
+#--------------------------------------------------------------------------------------------------
 ## programming languages
 RUN apt update && \
     # Python
@@ -736,6 +744,20 @@ RUN cd && \
   mkdir -p /root/opt/gpp-decrypt/ && cd /root/opt/gpp-decrypt && \
   wget 'https://gitlab.com/kalilinux/packages/gpp-decrypt/-/raw/kali/master/gpp-decrypt.rb' && \
   chmod u+x /root/opt/gpp-decrypt/gpp-decrypt.rb
+
+#--------------------------------------------------------------------------------------------------
+# Obfuscation tools
+RUN cd /tmp && \ 
+
+  # Bashfuscator
+  git clone --depth=1 https://github.com/Bashfuscator/Bashfuscator /tmp/bf && \
+  cd /tmp/bf && python3 setup.py install --user || true && \
+  rm -rf /tmp/bf  && \
+
+  # Invoke-DOSfuscation v1.0
+  # requires Powershell
+  cd /root/opt && \
+  git clone --depth=1 https://github.com/danielbohannon/Invoke-DOSfuscation.git
 
 #--------------------------------------------------------------------------------------------------
 # EOF
