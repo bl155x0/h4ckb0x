@@ -760,4 +760,14 @@ RUN cd /tmp && \
   git clone --depth=1 https://github.com/danielbohannon/Invoke-DOSfuscation.git
 
 #--------------------------------------------------------------------------------------------------
+# XML and XEE injection tooling
+RUN cd /tmp && \
+  
+  # XXEinjector
+  git clone https://github.com/enjoiz/XXEinjector.git && \
+  mv /tmp/XXEinjector/XXEinjector.rb /root/opt/bin/XXEinjector && \
+  chmod u+x /root/opt/bin/XXEinjector && \
+  rm -rf /tmp/XXEinjector
+  
+#--------------------------------------------------------------------------------------------------
 # EOF
