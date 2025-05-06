@@ -247,7 +247,14 @@ RUN apt update && \
     tar -C /root/opt -xvzf /tmp/3.1.5.tar.gz && \
     chmod u+x /root/opt/XSStrike-3.1.5/xsstrike.py && \
     ln -s /root/opt/XSStrike-3.1.5/xsstrike.py /root/opt/bin/xssstrike && \
-    rm /tmp/3.1.5.tar.gz
+    rm /tmp/3.1.5.tar.gz && \
+
+    # Droopescan - CMS plugin scanner
+    pip install droopescan && \
+
+    # Joomlascan
+    # pip2 install requests bs4 certifi urllib3 && \
+    git clone --depth 1 https://github.com/drego85/JoomlaScan.git  /root/opt/Joomlascan
 
 #--------------------------------------------------------------------------------------------------
 # Auto Recon tools
@@ -365,6 +372,7 @@ RUN apt update && \
     chmod 755 /tmp/msfinstall && \
     /tmp/msfinstall && \
     rm /tmp/msfinstall && \
+    cp /opt/metasploit-framework/embedded/framework/data/wordlists/http_default_pass.txt /root/opt/wordlists/ && \
 
     # Exploits
     mkdir -p /root/opt/exploits && \
