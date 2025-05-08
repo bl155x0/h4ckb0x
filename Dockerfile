@@ -399,6 +399,14 @@ Run mkdir -p /root/opt/web-shells/ && git clone --depth 1 https://github.com/jba
   git clone --depth 1 https://github.com/Arrexel/phpbash.git /root/opt/web-shells/phpbash
 
 #--------------------------------------------------------------------------------------------------
+# Other Remote Shells 
+
+Run mkdir -p /root/opt/reverse-shells && \
+
+  # splunk reverse shell
+  git clone --depth 1 https://github.com/0xjpuff/reverse_shell_splunk.git /root/opt/reverse-shells/reverse_shell_splunk
+
+#--------------------------------------------------------------------------------------------------
 # Mobile
 
     # apk tooling Leak scanner
@@ -581,6 +589,7 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
 
     # Nishang offensive Powershell scripts  inkl. "Antak" Web Shells
     git clone --depth 1 https://github.com/samratashok/nishang /root/opt/nishang && \
+    ln -s /root/opt/nishang/Shells/ /root/opt/reverse-shells/nishang && \
 
     # netexec
     export DEBIAN_FRONTEND=noninteractive && \
