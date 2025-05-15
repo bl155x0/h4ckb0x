@@ -78,7 +78,12 @@ RUN apt update && \
 
     # php 
     export DEBIAN_FRONTEND=noninteractive && \
-    apt install php -y 
+    apt install php -y  && \
+
+    # gdb and PEDA gdb utils 
+    apt install gdb -y && \
+    git clone --depth 1 https://github.com/longld/peda.git ~/opt/peda && \
+    echo "source ~/opt/peda/peda.py" >> ~/.gdbinit
 
 #--------------------------------------------------------------------------------------------------
 #Wordlists
@@ -210,7 +215,14 @@ RUN apt update && \
 
     # eye witness
     git clone --depth 1 https://github.com/RedSiege/EyeWitness.git /root/opt/eyewitness/ && \
-    /root/opt/eyewitness/Python/setup/setup.sh 
+    /root/opt/eyewitness/Python/setup/setup.sh  &&\
+
+    # shortscan - IIS 8.3 enumeration
+    /usr/local/go/bin/go install github.com/bitquark/shortscan/cmd/shortscan@latest && \
+    /usr/local/go/bin/go install github.com/bitquark/shortscan/cmd/shortutil@latest && \
+    mv go/bin/shortscan opt/bin/ && \
+    mv go/bin/shortutil opt/bin/ && \
+    rm -rf /root/go
 
 #--------------------------------------------------------------------------------------------------
 # Scanners 
