@@ -493,6 +493,7 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/linux/ https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.py && \
    wget -P /var/www/linux/ https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.sh && \
    wget -P /var/www/linux/ https://raw.githubusercontent.com/CiscoCXSecurity/linikatz/master/linikatz.sh && \
+   wget -P /var/www/linux/ https://master.dockerproject.org/linux/x86_64/docker && \
 
    # windows
    wget -P /var/www/windows/ https://raw.githubusercontent.com/peass-ng/PEASS-ng/master/winPEAS/winPEASps1/winPEAS.ps1 && \
@@ -797,6 +798,16 @@ RUN cd /tmp && \
   mv /tmp/XXEinjector/XXEinjector.rb /root/opt/bin/XXEinjector && \
   chmod u+x /root/opt/bin/XXEinjector && \
   rm -rf /tmp/XXEinjector
-  
+
+#--------------------------------------------------------------------------------------------------
+# Docker an  Kubernetes related tooling
+Run cd /tmp && \
+
+  # kubeletctl
+  curl -LO https://github.com/cyberark/kubeletctl/releases/download/v1.13/kubeletctl_linux_amd64 && \
+  chmod u+x kubeletctl_linux_amd64 && \
+  cp kubeletctl_linux_amd64 /root/opt/bin/kubeletctl && \
+  mv kubeletctl_linux_amd64 /var/www/linux/kubeletctl
+
 #--------------------------------------------------------------------------------------------------
 # EOF
