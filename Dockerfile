@@ -266,7 +266,12 @@ RUN apt update && \
 
     # Joomlascan
     # pip2 install requests bs4 certifi urllib3 && \
-    git clone --depth 1 https://github.com/drego85/JoomlaScan.git  /root/opt/Joomlascan
+    git clone --depth 1 https://github.com/drego85/JoomlaScan.git  /root/opt/Joomlascan && \
+
+    # lynis - linux auditing tool 
+    cd /tmp/ &&  git clone --depth 1 https://github.com/CISOfy/lynis.git && \
+    mkdir -p /var/www/linux && tar cvzf lynis.tgz lynis/ && mv lynis.tgz /var/www/linux/lynis.tgz && \
+    cd / && rm -rf /tmp/lynis
 
 #--------------------------------------------------------------------------------------------------
 # Auto Recon tools
@@ -447,9 +452,13 @@ RUN pip install jsbeautifier && \
     rm -rf /root/go && \
 
    # findwordlist
+   apt install -y fzf && \
    git clone --depth 1 https://github.com/bl155x0/findwordlist.git /tmp/findwordlist && \
    cd /tmp/findwordlist && /usr/local/go/bin/go build && \
    chmod u+x findwordlist && mv findwordlist /root/opt/bin/findwordlist && \
+   mv findwl /root/opt/bin/findwl && \
+   echo "#findwl" >> /root/.bashrc && \
+   echo "source /root/opt/bin/findwl" >> /root/.bashrc && \
    rm -rf /tmp/findwordlist && cd - && \
 
    # godork
