@@ -399,7 +399,15 @@ RUN apt update && \
     git clone --depth 1 https://github.com/cube0x0/CVE-2021-1675.git /root/opt/exploits/printNightmare && \
     # Petit Potam
     git clone --depth 1 https://github.com/topotam/PetitPotam.git /root/opt/exploits/petitPotam && \
-    mkdir -p /var/www/windows && cp /root/opt/exploits/petitPotam/PetitPotam.exe /var/www/windows 
+    mkdir -p /var/www/windows && cp /root/opt/exploits/petitPotam/PetitPotam.exe /var/www/windows  && \
+    # Potato exploits
+    mkdir -p /root/opt/exploits/JuicyPotato && cd /root/opt/exploits/JuicyPotato && \
+    wget https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe && \
+    cp /root/opt/exploits/JuicyPotato/JuicyPotato.exe /var/www/windows/ && \
+    # Print Spoofer
+    mkdir -p /root/opt/exploits/PrintSpoofer && cd /root/opt/exploits/PrintSpoofer && \
+    wget https://github.com/dievus/printspoofer/raw/refs/heads/master/PrintSpoofer.exe && \
+    cp /root/opt/exploits/PrintSpoofer/PrintSpoofer.exe /var/www/windows
 
 #--------------------------------------------------------------------------------------------------
 # Web Shells
@@ -535,6 +543,8 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://gitlab.com/kalilinux/packages/mimikatz/-/raw/d72fc2cca1df23f60f81bc141095f65a131fd099/x64/mimikatz.exe -O /var/www/windows/mimikatz64.exe && \
    wget -P /var/www/windows/ https://github.com/Group3r/Group3r/releases/download/1.0.67/Group3r.exe && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/adrecon/ADRecon/refs/heads/master/ADRecon.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/decoder-it/psgetsystem/refs/heads/master/psgetsys.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/refs/heads/master/EnableAllTokenPrivs.ps1 && \
 
   # socat windows
   git clone --depth 1 https://github.com/tech128/socat-1.7.3.0-windows.git /tmp/socat && \
@@ -551,8 +561,9 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
   # A WebDAV server for alternative file transfer via http
   pip3 install wsgidav cheroot
 
-# Add additional local stuff 
-COPY var/www/windows/Rubeus.exe /var/www/windows/Rubeus.exe
+  # Add additional local stuff 
+  #COPY var/www/windows/Rubeus.exe /var/www/windows/Rubeus.exe
+  COPY var/www/windows/*.exe /var/www/windows/
 #--------------------------------------------------------------------------------------------------
 # Database - SQL 
 RUN apt update && \ 
