@@ -562,8 +562,7 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
   pip3 install wsgidav cheroot
 
   # Add additional local stuff 
-  #COPY var/www/windows/Rubeus.exe /var/www/windows/Rubeus.exe
-  COPY var/www/windows/*.exe /var/www/windows/
+  COPY var/www/windows/* /var/www/windows/
 #--------------------------------------------------------------------------------------------------
 # Database - SQL 
 RUN apt update && \ 
