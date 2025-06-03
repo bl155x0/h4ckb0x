@@ -545,6 +545,7 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/adrecon/ADRecon/refs/heads/master/ADRecon.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/decoder-it/psgetsystem/refs/heads/master/psgetsys.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/refs/heads/master/EnableAllTokenPrivs.ps1 && \
+   wget -P /var/www/windows/ https://download.sysinternals.com/files/PSTools.zip && \
 
   # socat windows
   git clone --depth 1 https://github.com/tech128/socat-1.7.3.0-windows.git /tmp/socat && \
