@@ -391,12 +391,18 @@ RUN apt update && \
     rm /tmp/msfinstall && \
     cp /opt/metasploit-framework/embedded/framework/data/wordlists/http_default_pass.txt /root/opt/wordlists/ && \
 
-    # Exploits
+    # Exploits ..
     mkdir -p /root/opt/exploits && \
+
     # noPac - Windows DC exploitation 
     git clone --depth 1 https://github.com/Ridter/noPac /root/opt/exploits/noPac && \
+
     # PrintNightmare
     git clone --depth 1 https://github.com/cube0x0/CVE-2021-1675.git /root/opt/exploits/printNightmare && \
+    ## PrintNightmare powershell 
+    cd /root/opt/exploits/printNightmare && wget https://raw.githubusercontent.com/calebstewart/CVE-2021-1675/refs/heads/main/CVE-2021-1675.ps1  && \
+    cp CVE-2021-1675.ps1 /var/www/windows/PrintNightmare.ps1 && \
+
     # Petit Potam
     git clone --depth 1 https://github.com/topotam/PetitPotam.git /root/opt/exploits/petitPotam && \
     mkdir -p /var/www/windows && cp /root/opt/exploits/petitPotam/PetitPotam.exe /var/www/windows  && \
@@ -404,10 +410,16 @@ RUN apt update && \
     mkdir -p /root/opt/exploits/JuicyPotato && cd /root/opt/exploits/JuicyPotato && \
     wget https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe && \
     cp /root/opt/exploits/JuicyPotato/JuicyPotato.exe /var/www/windows/ && \
+
     # Print Spoofer
     mkdir -p /root/opt/exploits/PrintSpoofer && cd /root/opt/exploits/PrintSpoofer && \
     wget https://github.com/dievus/printspoofer/raw/refs/heads/master/PrintSpoofer.exe && \
-    cp /root/opt/exploits/PrintSpoofer/PrintSpoofer.exe /var/www/windows
+    cp /root/opt/exploits/PrintSpoofer/PrintSpoofer.exe /var/www/windows && \
+
+    #HiveNightmare aka SeriousSAM
+    mkdir -p /root/opt/exploits/HiveNightmare && cd /root/opt/exploits/HiveNightmare && \
+    wget https://github.com/GossiTheDog/HiveNightmare/releases/download/0.6/HiveNightmare.exe && \
+    cp /root/opt/exploits/HiveNightmare/HiveNightmare.exe /var/www/windows
 
 #--------------------------------------------------------------------------------------------------
 # Web Shells
