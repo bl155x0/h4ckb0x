@@ -522,7 +522,7 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/linux/ https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.py && \
    wget -P /var/www/linux/ https://raw.githubusercontent.com/huntergregal/mimipenguin/refs/heads/master/mimipenguin.sh && \
    wget -P /var/www/linux/ https://raw.githubusercontent.com/CiscoCXSecurity/linikatz/master/linikatz.sh && \
-   wget -P /var/www/linux/ https://master.dockerproject.org/linux/x86_64/docker && \
+   #wget -P /var/www/linux/ https://master.dockerproject.org/linux/x86_64/docker && \
 
    # windows
    wget -P /var/www/windows/ https://raw.githubusercontent.com/peass-ng/PEASS-ng/master/winPEAS/winPEASps1/winPEAS.ps1 && \
@@ -558,6 +558,7 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/decoder-it/psgetsystem/refs/heads/master/psgetsys.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/refs/heads/master/EnableAllTokenPrivs.ps1 && \
    wget -P /var/www/windows/ https://download.sysinternals.com/files/PSTools.zip && \
+   wget -P /var/www/windows/ https://download.sysinternals.com/files/ProcessMonitor.zip && \
 
   # socat windows
   git clone --depth 1 https://github.com/tech128/socat-1.7.3.0-windows.git /tmp/socat && \
