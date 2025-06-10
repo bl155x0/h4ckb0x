@@ -532,7 +532,7 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-AESEncryption.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/bl155x0/PowerShellHacks/refs/heads/main/Invoke-PowerShellTcp.ps1 && \
-   wget -P /var/www/windows/ https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.6/LaZagne.exe && \
+   wget -P /var/www/windows/ https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Recon/PowerView.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Exfiltration/Get-GPPPassword.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/refs/heads/master/Invoke-TheHash.ps1 && \
@@ -553,12 +553,14 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://github.com/SpecterOps/BloodHound-Legacy/raw/refs/heads/master/Collectors/SharpHound.exe && \
    wget -P /var/www/windows/ https://gitlab.com/kalilinux/packages/mimikatz/-/raw/d72fc2cca1df23f60f81bc141095f65a131fd099/Win32/mimikatz.exe -O /var/www/windows/mimikatz.exe && \
    wget -P /var/www/windows/ https://gitlab.com/kalilinux/packages/mimikatz/-/raw/d72fc2cca1df23f60f81bc141095f65a131fd099/x64/mimikatz.exe -O /var/www/windows/mimikatz64.exe && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/Arvanaghi/SessionGopher/refs/heads/master/SessionGopher.ps1 && \
    wget -P /var/www/windows/ https://github.com/Group3r/Group3r/releases/download/1.0.67/Group3r.exe && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/adrecon/ADRecon/refs/heads/master/ADRecon.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/decoder-it/psgetsystem/refs/heads/master/psgetsys.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/refs/heads/master/EnableAllTokenPrivs.ps1 && \
    wget -P /var/www/windows/ https://download.sysinternals.com/files/PSTools.zip && \
    wget -P /var/www/windows/ https://download.sysinternals.com/files/ProcessMonitor.zip && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/dafthack/MailSniper/refs/heads/master/MailSniper.ps1 && \
 
   # socat windows
   git clone --depth 1 https://github.com/tech128/socat-1.7.3.0-windows.git /tmp/socat && \
