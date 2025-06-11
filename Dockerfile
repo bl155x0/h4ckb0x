@@ -561,6 +561,8 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://download.sysinternals.com/files/PSTools.zip && \
    wget -P /var/www/windows/ https://download.sysinternals.com/files/ProcessMonitor.zip && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/dafthack/MailSniper/refs/heads/master/MailSniper.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-SharpChromium.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/inguardians/Invoke-Clipboard/refs/heads/master/Invoke-Clipboard.ps1 && \
 
   # socat windows
   git clone --depth 1 https://github.com/tech128/socat-1.7.3.0-windows.git /tmp/socat && \
