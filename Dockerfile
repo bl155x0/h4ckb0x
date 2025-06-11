@@ -655,7 +655,14 @@ RUN git clone --depth 1 https://github.com/fortra/impacket /root/opt/impacket &&
     pip3 install certipy-ad && \
 
     # pyGPOAbuse - A tool to abuse writable GPO
-    git clone --depth 1 https://github.com/Hackndo/pyGPOAbuse.git /root/opt/pyGPOAbuse 
+    git clone --depth 1 https://github.com/Hackndo/pyGPOAbuse.git /root/opt/pyGPOAbuse  && \
+
+    # Adding Further PowerSploit Modules 
+    git clone --depth 1 https://github.com/PowerShellMafia/PowerSploit.git /root/opt/PowerSploit && \
+    ## Privesc
+    cd /root/opt/PowerSploit/Privesc && zip PowerSploitPrivEsc.zip * && \
+    cp PowerSploitPrivEsc.zip /var/www/windows && \
+    cd -
 
 #--------------------------------------------------------------------------------------------------
 # Kerberos
