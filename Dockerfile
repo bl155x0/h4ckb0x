@@ -391,6 +391,17 @@ RUN apt update && \
     rm /tmp/msfinstall && \
     cp /opt/metasploit-framework/embedded/framework/data/wordlists/http_default_pass.txt /root/opt/wordlists/ && \
 
+    # Windows Exploit suggester
+    git clone --depth 1 https://github.com/AonCyberLabs/Windows-Exploit-Suggester.git /root/opt/WindowsExploitSuggester && \
+    chmod 755 /root/opt/WindowsExploitSuggester/windows-exploit-suggester.py && \
+    cd /root/opt/WindowsExploitSuggester && python2.7 /root/opt/WindowsExploitSuggester/windows-exploit-suggester.py --update && \
+    ## runtime deps
+    wget https://files.pythonhosted.org/packages/28/84/27df240f3f8f52511965979aad7c7b77606f8fe41d4c90f2449e02172bb1/setuptools-2.0.tar.gz && \
+    tar -xf setuptools-2.0.tar.gz && cd setuptools-2.0/ && python2.7 setup.py install && cd - && \
+    wget https://files.pythonhosted.org/packages/42/85/25caf967c2d496067489e0bb32df069a8361e1fd96a7e9f35408e56b3aab/xlrd-1.0.0.tar.gz && \
+    tar -xf xlrd-1.0.0.tar.gz && cd xlrd-1.0.0/ && sudo python2.7 setup.py install && cd - && \
+
+
     # Exploits ..
     mkdir -p /root/opt/exploits && \
 
@@ -563,6 +574,7 @@ RUN mkdir -p /var/www/linux && mkdir -p /var/www/windows/ && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/dafthack/MailSniper/refs/heads/master/MailSniper.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-SharpChromium.ps1 && \
    wget -P /var/www/windows/ https://raw.githubusercontent.com/inguardians/Invoke-Clipboard/refs/heads/master/Invoke-Clipboard.ps1 && \
+   wget -P /var/www/windows/ https://raw.githubusercontent.com/rasta-mouse/Sherlock/refs/heads/master/Sherlock.ps1 && \
 
   # socat windows
   git clone --depth 1 https://github.com/tech128/socat-1.7.3.0-windows.git /tmp/socat && \
