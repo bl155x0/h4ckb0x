@@ -417,10 +417,17 @@ RUN apt update && \
     # Petit Potam
     git clone --depth 1 https://github.com/topotam/PetitPotam.git /root/opt/exploits/petitPotam && \
     mkdir -p /var/www/windows && cp /root/opt/exploits/petitPotam/PetitPotam.exe /var/www/windows  && \
-    # Potato exploits
-    mkdir -p /root/opt/exploits/JuicyPotato && cd /root/opt/exploits/JuicyPotato && \
-    wget https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe && \
+
+    ## Potato exploits
+    ## JuicyPotato
+    git clone --depth 1 https://github.com/ohpe/juicy-potato /root/opt/exploits/JuicyPotato && \
+    cd /root/opt/exploits/JuicyPotato && wget https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe && \
     cp /root/opt/exploits/JuicyPotato/JuicyPotato.exe /var/www/windows/ && \
+    ## RoguePotato
+    mkdir /root/opt/exploits/RoguePotato && cd /root/opt/exploits/RoguePotato && \
+    wget https://github.com/antonioCoco/RoguePotato/releases/download/1.0/RoguePotato.zip && \
+    unzip RoguePotato.zip && \
+    cp RoguePotato.exe /var/www/windows && \
 
     # Print Spoofer
     mkdir -p /root/opt/exploits/PrintSpoofer && cd /root/opt/exploits/PrintSpoofer && \
