@@ -429,6 +429,12 @@ RUN apt update && \
     unzip RoguePotato.zip && \
     cp RoguePotato.exe /var/www/windows && \
 
+    # Rouge WinRM - Windows priv esc 
+    mkdir /root/opt/exploits/RogueWinRm/ && cd /root/opt/exploits/RogueWinRm && \
+    wget https://github.com/antonioCoco/RogueWinRM/releases/download/1.1/RogueWinRM.zip && \
+    unzip RogueWinRM.zip && cp RogueWinRM.exe /var/www/windows && \
+    cd - && \
+
     # Print Spoofer
     mkdir -p /root/opt/exploits/PrintSpoofer && cd /root/opt/exploits/PrintSpoofer && \
     wget https://github.com/dievus/printspoofer/raw/refs/heads/master/PrintSpoofer.exe && \
