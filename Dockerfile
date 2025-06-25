@@ -340,6 +340,9 @@ RUN apt update && \
     # hashcat hash cracker
     apt install hashcat -y && \
 
+    # hashid - a tool for identifying hashsums 
+    pip install hashid && \
+
     # john
     apt -y install libssl-dev && \
     git clone --depth 1 https://github.com/openwall/john.git /tmp/john && \
@@ -812,13 +815,13 @@ RUN apt update && \
     cd - && \
 
     # ligolo-ng
-    wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.5/ligolo-ng_proxy_0.7.5_linux_amd64.tar.gz -O /tmp/ligolo-ng.tar.gz && \
+    wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.2/ligolo-ng_proxy_0.8.2_linux_amd64.tar.gz -O /tmp/ligolo-ng.tar.gz && \
     cd /tmp/ && tar xvzf ligolo-ng.tar.gz && cp proxy /root/opt/bin/ligolo-proxy && cd - && \
     rm -rf /tmp/* && \
-    wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.5/ligolo-ng_agent_0.7.5_linux_amd64.tar.gz -O /tmp/ligolo-agent.tar.gz && \
+    wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.2/ligolo-ng_agent_0.8.2_linux_amd64.tar.gz -O /tmp/ligolo-agent.tar.gz && \
     cd /tmp/ && tar xf ligolo-agent.tar.gz && mv agent /var/www/linux/ligolo-agent && cd - && \
     rm -rf /tmp/* && \
-    wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.7.5/ligolo-ng_agent_0.7.5_windows_amd64.zip -O /tmp/ligolo-agent.zip && \ 
+    wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.2/ligolo-ng_agent_0.8.2_windows_amd64.zip -O /tmp/ligolo-agent.zip && \ 
     cd /tmp/ && unzip ligolo-agent.zip && mv agent.exe /var/www/windows/ligolo-agent.exe && cd - && \
     rm -rf /tmp/*
 
