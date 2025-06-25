@@ -823,7 +823,13 @@ RUN apt update && \
     rm -rf /tmp/* && \
     wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.2/ligolo-ng_agent_0.8.2_windows_amd64.zip -O /tmp/ligolo-agent.zip && \ 
     cd /tmp/ && unzip ligolo-agent.zip && mv agent.exe /var/www/windows/ligolo-agent.exe && cd - && \
-    rm -rf /tmp/*
+    rm -rf /tmp/* && \
+
+    # Pcreds - A PCAP analyzer and credential extractor
+    apt install -y python3-pip libpcap-dev file && pip3 install Cython && pip3 install python-libpcap && \
+    cd /root/opt && git clone --depth=1 https://github.com/lgandx/PCredz.git && \
+    mv /root/opt/PCredz/Pcredz /root/opt/bin && \
+    rm -rf /root/opt/PCredz
 
 #--------------------------------------------------------------------------------------------------
 # additional compression tools
