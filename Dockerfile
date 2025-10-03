@@ -499,14 +499,13 @@ RUN pip install jsbeautifier && \
     rm -rf /root/go && \
 
    # findwordlist
-   apt install -y fzf && \
-   git clone --depth 1 https://github.com/bl155x0/findwordlist.git /tmp/findwordlist && \
-   cd /tmp/findwordlist && /usr/local/go/bin/go build && \
-   chmod u+x findwordlist && mv findwordlist /root/opt/bin/findwordlist && \
-   mv findwl /root/opt/bin/findwl && \
-   echo "#findwl" >> /root/.bashrc && \
-   echo "source /root/opt/bin/findwl" >> /root/.bashrc && \
-   rm -rf /tmp/findwordlist && cd - && \
+   git clone --depth 1 https://github.com/junegunn/fzf.git /tmp/fzf  && \
+   cd /tmp/fzf && go build && \
+   cp /tmp/fzf/fzf /root/opt/bin && \
+   rm -rf /tmp/fzf && cd - && \
+   /usr/local/go/bin/go install github.com/bl155x0/findwordlist@v0.3.0 && \
+   mv /root/go/bin/findwordlist /root/opt/bin && \
+   printf "%s\n" "alias findwl='eval \$(findwordlist)'" >> /root/.bashrc && \
 
    # godork
    git clone --depth 1 https://github.com/bl155x0/godork.git /tmp/godork && \
