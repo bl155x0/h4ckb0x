@@ -199,6 +199,10 @@ RUN apt update && \
     mv go/bin/gobuster opt/bin/ && \
     rm -rf /root/go && \
 
+    #wenum
+    apt install -y pipx && pipx install git+https://github.com/WebFuzzForge/wenum && \
+    pipx runpip wenum install setuptools && \
+
     # kiterunner API fuzzer 
     wget -P /tmp/ https://github.com/assetnote/kiterunner/releases/download/v1.0.2/kiterunner_1.0.2_linux_amd64.tar.gz && \
     tar -C /root/opt/bin -xf /tmp/kiterunner_1.0.2_linux_amd64.tar.gz && \
@@ -215,7 +219,7 @@ RUN apt update && \
 
     # eye witness
     git clone --depth 1 https://github.com/RedSiege/EyeWitness.git /root/opt/eyewitness/ && \
-    /root/opt/eyewitness/Python/setup/setup.sh  &&\
+    /root/opt/eyewitness/setup/setup.sh  &&\
 
     # shortscan - IIS 8.3 enumeration
     /usr/local/go/bin/go install github.com/bitquark/shortscan/cmd/shortscan@latest && \
@@ -223,6 +227,9 @@ RUN apt update && \
     mv go/bin/shortscan opt/bin/ && \
     mv go/bin/shortutil opt/bin/ && \
     rm -rf /root/go
+
+#feroxbuser
+Run curl -sL https://raw.githubusercontent.com/epi052/feroxbuster/main/install-nix.sh | bash -s $HOME/.local/bin
 
 #--------------------------------------------------------------------------------------------------
 # Scanners 
