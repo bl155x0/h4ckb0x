@@ -897,4 +897,11 @@ Run cd /tmp && \
   mv kubeletctl_linux_amd64 /var/www/linux/kubeletctl
 
 #--------------------------------------------------------------------------------------------------
+# URL tooling
+RUN cd && \
+
+  # gopherus SSRF payload creation
+  pipx install git+https://github.com/Esonhugh/Gopherus3.git
+
+#--------------------------------------------------------------------------------------------------
 # EOF
