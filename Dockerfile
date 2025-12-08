@@ -261,6 +261,11 @@ RUN apt update && \
     # sql map ws support
     pip install websocket-client && \
 
+    # SSTImap
+    git clone https://github.com/vladko312/SSTImap /root/opt/sstimap && \
+    pip3 install -r /root/opt/sstimap/requirements.txt && \
+    ln -s /root/opt/sstimap/sstimap.py /root/opt/bin/sstimap && \
+
     # xssstrike XSS scanner
     wget -P /tmp "https://github.com/s0md3v/XSStrike/archive/refs/tags/3.1.5.tar.gz" && \
     tar -C /root/opt -xvzf /tmp/3.1.5.tar.gz && \
