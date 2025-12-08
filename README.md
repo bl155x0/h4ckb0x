@@ -81,6 +81,7 @@ $ h4ckb0x
 
 ### Web application testing & CMS scanning
 - `sqlmap` - automated SQL injection discovery and exploitation.
+- `SSTImap` - automated SSTI injection discovery and exploitation.
 - `JoomlaScan` - Joomla CMS scanner.
 - `smuggler` - HTTP request smuggling testing tool.
 - `whatweb` - web fingerprinting.
