@@ -283,7 +283,10 @@ RUN apt update && \
     # lynis - linux auditing tool 
     cd /tmp/ &&  git clone --depth 1 https://github.com/CISOfy/lynis.git && \
     mkdir -p /var/www/linux && tar cvzf lynis.tgz lynis/ && mv lynis.tgz /var/www/linux/lynis.tgz && \
-    cd / && rm -rf /tmp/lynis
+    cd / && rm -rf /tmp/lynis && \
+
+	# A GraphQL enumeration scanner
+	cd  /root/opt/ && git clone https://github.com/dolevf/graphw00f.git 
 
 #--------------------------------------------------------------------------------------------------
 # Auto Recon tools
@@ -486,10 +489,10 @@ Run mkdir -p /root/opt/reverse-shells && \
 # Mobile
 
     # apk tooling Leak scanner
-RUN pip3 install apkleaks && \
-    wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool -O /root/opt/bin/apktool && \
-    chmod u+x /root/opt/bin/apktool && \
-    wget https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.8.1.jar -O /root/opt/bin/apktool.jar
+## RUN pip3 install apkleaks && \
+##     wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool -O /root/opt/bin/apktool && \
+##     chmod u+x /root/opt/bin/apktool && \
+##     wget https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.8.1.jar -O /root/opt/bin/apktool.jar
 
 #--------------------------------------------------------------------------------------------------
 # AWS
@@ -536,13 +539,19 @@ RUN pip install jsbeautifier && \
 #--------------------------------------------------------------------------------------------------
 # JavaScript
 
-    # node, npm and eslint
+# node, npm and eslint
 RUN cd /tmp && wget https://nodejs.org/dist/v20.12.0/node-v20.12.0-linux-x64.tar.xz && \
     tar xf node-v20.12.0-linux-x64.tar.xz -C /opt && \
     export PATH=$PATH:/opt/node-v20.12.0-linux-x64/bin/ && \
-    npm install -g --save-dev eslint eslint-plugin-security && \
-    cd /root &&  git clone https://github.com/Greenwolf/eslint-security-scanner-configs && \
-    cd /root/eslint-security-scanner-configs && npm install eslint-plugin-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-config-standard eslint-config-semistandard eslint-plugin-scanjs-rules eslint-plugin-no-unsanitized eslint-plugin-prototype-pollution-security-rules eslint-plugin-angularjs-security-rules eslint-plugin-react eslint-plugin-no-wildcard-postmessage eslint-plugin-html@latest --save-dev
+    npm install -g \
+      eslint \
+      eslint-plugin-security \
+      eslint-plugin-no-unsanitized \
+      eslint-plugin-react \
+      eslint-plugin-import \
+      eslint-plugin-n \
+      eslint-plugin-promise \
+      @microsoft/eslint-plugin-sdl
 
 #--------------------------------------------------------------------------------------------------
 # smuggler
