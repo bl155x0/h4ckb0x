@@ -286,7 +286,13 @@ RUN apt update && \
     cd / && rm -rf /tmp/lynis && \
 
 	# A GraphQL enumeration scanner
-	cd  /root/opt/ && git clone https://github.com/dolevf/graphw00f.git 
+	cd  /root/opt/ && git clone https://github.com/dolevf/graphw00f.git && \
+
+	# graphql-cop - GraphQL auditing tool
+	cd /root/opt/ && git clone https://github.com/dolevf/graphql-cop.git && \
+	cd /root/opt/graphql-cop && \
+	python3 -m pip install -r requirements.txt && \
+	chmod u+x graphql-cop.py
 
 #--------------------------------------------------------------------------------------------------
 # Auto Recon tools
