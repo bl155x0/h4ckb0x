@@ -22,6 +22,7 @@ RUN apt update && apt upgrade -y && \
     apt install sudo -y && \
     apt install alien -y && \
     apt install ldap-utils -y && \
+    apt install rsh-client -y && \
     apt install -y openssh-server && mkdir -p /run/sshd && chmod 0755 /run/sshd
 
 #Home directory
