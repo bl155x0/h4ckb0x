@@ -33,7 +33,7 @@ WORKDIR /root
 RUN mkdir /root/.ssh
 
 #bashrc
-RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/" >> /root/.bashrc &&  \
+RUN echo "PATH=\$PATH:/root/opt/bin:/opt/node-v20.12.0-linux-x64/bin/:/root/.cargo/bin" >> /root/.bashrc &&  \
     echo "export RECONAUT_TEMPLATES=/root/reconaut-templates/" >> /root/.bashrc &&  \
     echo "PS1='\[\033[0;31m\]\u \e[31m$(parse_if_root)\[\033[0;37m\]at \[\033[0;31m\]h4ckb0x \[\033[0;37m\]in \[\033[0;31m\]\w \[\033[1;35m\]$(parse_git_branch)\n\[\033[1;35m\] \[\033[0m\]'" >> /root/.bashrc && \
     echo "PATH=\$PATH:/root/.local/bin" >> /root/.bashrc && \
@@ -65,10 +65,13 @@ RUN apt update && \
     apt install -y python2.7 && \
 
     # Go
-    wget -P /tmp https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \ 
+    wget -P /tmp https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf /tmp/go1.23.1.linux-amd64.tar.gz   && \
     rm /tmp/go1.23.1.linux-amd64.tar.gz && \
     ln -s /usr/local/go/bin/go /usr/bin/go && \
+
+    # Rust (needed to build some pip packages with native extensions, e.g. aardwolf via netexec)
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 
     # Java
     apt install openjdk-17-jdk openjdk-17-jre -y && \
@@ -81,10 +84,13 @@ RUN apt update && \
     export DEBIAN_FRONTEND=noninteractive && \
     apt install php -y  && \
 
-    # gdb and PEDA gdb utils 
+    # gdb and PEDA gdb utils
     apt install gdb -y && \
     git clone --depth 1 https://github.com/longld/peda.git ~/opt/peda && \
     echo "source ~/opt/peda/peda.py" >> ~/.gdbinit
+
+# make cargo/rustc available in all subsequent RUN layers (non-interactive shells don't read .bashrc)
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 #--------------------------------------------------------------------------------------------------
 #Wordlists
@@ -97,9 +103,15 @@ RUN apt update && \
     # SecLists
     git clone --depth 1 https://github.com/danielmiessler/SecLists.git /root/opt/wordlists/SecLists && \
 
+	# We might need older versions 
+	mkdir -p /root/opt/wordlists/SesLists/2025/ && \
+	wget -P /root/opt/wordlists/SecLists/2025/ https://github.com/danielmiessler/SecLists/archive/refs/tags/2025.2.zip && \
+	cd /root/opt/wordlists/SecLists/2025/ && unzip /root/opt/wordlists/SecLists/2025/2025.2.zip && \
+	rm /root/opt/wordlists/SecLists/2025/2025.2.zip && \
+
     # n0kovo subdomain
     git clone --depth 1  https://github.com/n0kovo/n0kovo_subdomains /root/opt/wordlists/n0kovo && \
-
+	
     # insidetrust's user-name SecLists
     git clone --depth 1 https://github.com/insidetrust/statistically-likely-usernames.git /root/opt/wordlists/statistically-likely-usernames && \
 
